@@ -6,14 +6,13 @@
    [config.core :refer [env]]))
 
 (def mount-target
-  [:div#app
-   [:h2 "swordfish"]
-   [:p "please wait while Figwheel/shadow-cljs is waking up ..."]
-   [:p "(Check the js console for hints if nothing exciting happens.)"]])
+  [:div#app])
+
 
 (defn head []
   [:head
    [:title "Swordfish"]
+   [:link {:rel "icon" :type "image/png" :href "/img/favicon.png"}]
    [:meta {:charset "utf-8"}]
    [:meta {:name "viewport"
            :content "width=device-width, initial-scale=1"}]
@@ -22,7 +21,7 @@
 (defn loading-page []
   (html5
    (head)
-   [:body {:class "body-container"}
+   [:body {:class "body-container" :style "background: #181819;"}
     mount-target
     (include-js "/js/app.js")
     [:script "swordfish.core.init_BANG_()"]]))

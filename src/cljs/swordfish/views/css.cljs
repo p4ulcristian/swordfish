@@ -1,4 +1,4 @@
-(ns swordfish.css
+(ns swordfish.views.css
   (:require
         [cljss.core :refer-macros [defstyles defkeyframes font-face] :as css]))
 
