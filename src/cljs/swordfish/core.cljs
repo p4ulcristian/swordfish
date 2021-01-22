@@ -9,8 +9,6 @@
    [accountant.core :as accountant]))
 
 
-(defn str-css [args]
-  (apply str (clojure.string/join " " args)))
 
 (def router
   (reitit/router
@@ -28,14 +26,15 @@
 ;; -------------------------
 ;; Page components
 
+
 (defn price-card []
   [:div {:class (css/price-box)}
-   [:div {:class (str-css [(css/font-size "50px")
-                           (css/padding "10px 0px")])}
+   [:div {:class [(css/font-size "50px")
+                  (css/padding "10px 0px")]}
     "€950"]
-   [:div {:class (str-css [(css/vertical-align)
-                           (css/font-size "20px")
-                           (css/padding "10px")])}
+   [:div {:class [(css/vertical-align)
+                  (css/font-size "20px")
+                  (css/padding "10px")]}
     [:div
      [:div  "SHOP"]
      [:div  "NOW"]]]])

@@ -62,6 +62,8 @@
             :&:hover {:color "white"
                       :cursor "pointer"}})
 
+
+
 (defstyles nav-line []
            {:height "50%"
             :flex-grow 1
