@@ -23,6 +23,7 @@
    (head)
    [:body {:class "body-container" :style "background: #181819;"}
     mount-target
+    (include-js "https://kit.fontawesome.com/f4781bfeea.js")
     (include-js "/js/app.js")
     [:script "swordfish.core.init_BANG_()"]]))
 

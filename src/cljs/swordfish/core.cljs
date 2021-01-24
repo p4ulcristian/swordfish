@@ -5,30 +5,21 @@
    [reagent.session :as session]
    [reitit.frontend :as reitit]
    [clerk.core :as clerk]
-   [swordfish.views.main-view.cljs :as main-view]
+   [swordfish.router :refer [router page-for]]
+   [swordfish.views.main :as main]
+   [swordfish.views.css :as css]
    [accountant.core :as accountant]))
 
 
 
-(def router
-  (reitit/router
-   [["/" :index]
-    ["/shop" :shop]
-    ["/fact" :fact]
-    ["/faq" :faq]
-    ["/contact" :contact]]))
 
-(defn path-for [route & [params]]
-  (if params
-    (:path (reitit/match-by-name router route params))
-    (:path (reitit/match-by-name router route))))
 
 ;; -------------------------
 ;; Initialize app
 
 (defn mount-root []
   (css/remove-styles!)
-  (rdom/render [main-view/current-page] (.getElementById js/document "app")))
+  (rdom/render [main/current-page] (.getElementById js/document "app")))
 
 
 

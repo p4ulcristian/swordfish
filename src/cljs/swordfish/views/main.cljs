@@ -2,44 +2,11 @@
   (:require
     [reagent.core :as reagent :refer [atom]]
     ;[reagent.dom :as rdom]
-    ;[reagent.session :as session]
+    [reagent.session :as session]
     ;[reitit.frontend :as reitit]
     [swordfish.views.css :as css]
+    [swordfish.router :refer [path-for]]
     [accountant.core :as accountant]))
-
-
-
-(defn price-card []
-  [:div {:class (css/price-box)}
-   [:div {:class [(css/font-size "50px")
-                  (css/padding "10px 0px")]}
-    "€950"]
-   [:div {:class [(css/vertical-align)
-                  (css/font-size "20px")
-                  (css/padding "10px")]}
-    [:div
-     [:div  "SHOP"]
-     [:div  "NOW"]]]])
-
-(defn home-page []
-  (fn []
-    [:div {:class (css/main-product-container)}
-     [:div {:class (css/wakizashi)}
-      [:img {:class (css/wakizashi-img)
-             :src "/img/wakizashi.svg"}]
-      [:p {:class (css/p-font)}
-       [:p "This is the area I have to fill with marketing text that makes you want to wear a Swordfish fin so bad you
-       can’t resist hitting that add to cart button"]]
-      [price-card]]
-
-     [:img {:class (css/main-product)
-            :src "/img/main-product.png"}]]))
-
-(defn page-for [route]
-  (case route
-    :index #'home-page
-    "else"))
-
 
 
 (defn menu-link [name href]
@@ -49,25 +16,60 @@
 
 (defn navbar []
   [:header
-   [:div {:class (css/navbar)}
-    [:a {:href "/"}
+   [:div {:class [(css/content-width) (css/navbar)]}
+    [:a {:href "/" :class (css/logo-container)}
      [:img {:class (css/logo) :src "/img/logo.svg"}]]
     [:div {:class (css/nav-line)}]
     [:div {:class (css/menu)}
-     [menu-link "HOMdsaE" (path-for :index)]
+     [menu-link "HOME" (path-for :index)]
      [menu-link "SHOP" (path-for :shop)]
      [menu-link "FACT" (path-for :fact)]
      [menu-link "FAQ" (path-for :faq)]
      [menu-link "CONTACT" (path-for :contact)]]]])
 
+(defn footer-link [title href]
+  [:div {:class [(css/padding "10px")
+                 (css/vertical-align)]}
+   title])
+
+(defn footer-links []
+  [:div {:class [(css/padding "0px 0px 0px 20px") (css/flex)]}
+   [footer-link "PRIVACY POLICY" ""]
+   [footer-link "SHIPPING & HANDLING" ""]
+   [footer-link "RETURN POLICY" ""]
+   [footer-link "FAQ" ""]
+   [footer-link "MY PERSONAL DATA" ""]])
+
+(defn social-icon [class url]
+  [:div {:class (css/padding "5px 10px")}
+   [:a {:href url :target "_blank" :class (css/social-icon-href)}
+    [:span {:class class}]]])
+
+(defn copyright-social-icons []
+  [:div {:class [(css/copyright-social-icons)]}
+   [social-icon "fab fa-facebook" "https://www.facebook.com/swordfishfins"]
+   [social-icon "fab fa-youtube" "https://www.youtube.com/channel/UCT17xq2yVM77mdiXMkzd1hg"]
+   [social-icon "fab fa-instagram" "https://www.instagram.com/swordfishfins/"]])
+
+(defn copyright []
+  [:div {:class [(css/copyright) (css/vertical-align)]}
+   [:div
+    [:div {:class [(css/text-color "grey") (css/font-size "10px")]}
+     "© 2020, Swordfish Fins."]
+    [copyright-social-icons]]])
 
 (defn footer []
-  [:footer {:class (css/footer)}
-   [:img {:src "/img/paying.png" :class (css/footer-paying)}]])
+  [:footer {:class [ (css/footer)]}
+   [:div {:class [(css/flex) (css/content-width)]}
+    [:div {:class [(css/padding "10px 0px")]}
+     [:img {:src "/img/paying.png" :class (css/footer-paying)}]]
+    [footer-links]
+    [copyright]]])
 
 (defn background-logo []
   [:img {:src "/img/background-logo.svg"
          :class (css/background-logo)}])
+
 
 
 ;; -------------------------
@@ -76,7 +78,7 @@
 (defn current-page []
   (fn []
     (let [page (:current-page (session/get :route))]
-      [:div {:class (css/background)}
+      [:div {:class [(css/background)]}
        [background-logo]
        [navbar]
        [page]
