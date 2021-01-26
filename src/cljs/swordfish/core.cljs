@@ -7,7 +7,7 @@
    [clerk.core :as clerk]
    [swordfish.router :refer [router page-for]]
    [swordfish.views.main :as main]
-   [swordfish.views.css :as css]
+   [swordfish.css.utils :as css]
    [accountant.core :as accountant]))
 
 

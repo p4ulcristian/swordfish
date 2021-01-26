@@ -2,7 +2,11 @@
   (:require
     [reagent.core :as reagent :refer [atom]]
     [reitit.frontend :as reitit]
-    [swordfish.views.pages.home :refer [home-page]]))
+    [swordfish.views.home :refer [home-page]]
+    [swordfish.views.shop :refer [shop]]
+    [swordfish.views.fact :refer [fact]]
+    [swordfish.views.faq :refer [faq]]
+    [swordfish.views.contact :refer [contact]]))
 
 (def router
   (reitit/router
@@ -20,4 +24,8 @@
 (defn page-for [route]
   (case route
     :index #'home-page
+    :shop #'shop
+    :fact #'fact
+    :faq #'faq
+    :contact #'contact
     "else"))

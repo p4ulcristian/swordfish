@@ -1,20 +1,8 @@
-(ns swordfish.views.css
+(ns swordfish.css.home
   (:require
+        [swordfish.css.utils :refer [color]]
         [cljss.core :refer-macros [defstyles defkeyframes font-face] :as css]))
 
-
-(defn remove-styles! []
-  (css/remove-styles!))
-
-(def color-scheme
-  (atom {:wall-color "#181819"
-         :text-color "#A6A2A2"
-         :highlight-color  "#2B83C7"
-         :price-color "#2B83C7"}))
-
-
-(defn color [the-key]
-  (get @color-scheme the-key))
 
 (defstyles background []
            {:height "content"
@@ -75,7 +63,7 @@
 (defstyles menu-item []
            {:color (color :text-color)
             :text-decoration "none"
-            :&:hover {:color (:highlight-color @color-scheme)
+            :&:hover {:color (color :highlight-color)
                       :cursor "pointer"}})
 
 
@@ -85,11 +73,6 @@
             :flex-grow 1
             :z-index "2"
             :border-bottom (str "1px solid " (color :text-color))})
-
-(defstyles vertical-align []
-           {:display "flex"
-            :align-items "center"})
-
 
 (defstyles wakizashi []
            {:position "absolute"
@@ -113,28 +96,19 @@
             ;:height "50px"
             :width "100%"})
 
+(defstyles footer-link []
+           {:flex-basis "content"})
+
 (defstyles p-font []
            {:font-family "'Roboto', sans-serif"
             :line-height "25px"
             :text-transform "uppercase"
             :color (color :text-color)})
 
-
-(defstyles padding [param]
-           {:padding param})
-
-(defstyles font-size [param]
-           {:font-size param})
-
-(defstyles position  [param]
-           {:position param})
-
-(defstyles text-color [param]
-           {:color param})
-
 (defstyles copyright []
            {:flex-grow 1
             :display "flex"
+            :margin-right "10px"
             :justify-content "flex-end"})
 
 (defstyles price []
@@ -160,8 +134,8 @@
 
 
 (defstyles social-icon-href []
-           {:color (:text-color @color-scheme)
-            :&:hover {:color (:highlight-color @color-scheme)}})
+           {:color (color :text-color)
+            :&:hover {:color (color :highlight-color)}})
 
 (defstyles social-icons []
            {:right "40px" :top "50%"
@@ -190,10 +164,10 @@
             :margin-bottom "20px"
             :font-family "'Oswald', sans-serif"
             :font-size "20px"
-            :color (:text-color @color-scheme)})
+            :color (color :text-color)})
 
 (defstyles one-badge-desc []
-           {:color (:highlight-color @color-scheme)
+           {:color (color :highlight-color)
             :font-family "'Roboto', sans-serif"
             :font-size "18px"})
 
@@ -207,23 +181,21 @@
 (defstyles down-arrow []
            {:bottom 0 :display "flex" :justify-content "center"})
 
-(defstyles flex []
-           {:display "flex"})
 
-(defstyles content-width []
-           {:max-width "1200px" :margin "auto"
-            :position "relative"})
+
 
 (defstyles contact-description []
-           {:color (:text-color @color-scheme)
+           {:color (color :text-color)
             :font-family "'Roboto', sans-serif"
-            :text-align "center"})
+            :text-align "center"
+            :margin "40px 0px"})
 
 (defstyles contact-social-icon []
            {:padding "10px"})
 
 (defstyles contact-social-icons []
            {:display "flex"
+            :margin "60px 0px 180px 0px"
             :justify-content "center"})
 
 (defstyles copyright-social-icons []
@@ -235,20 +207,53 @@
             :width "fit-content"
             :position "absolute"
             :left "0"
-            :font-size "20px"
+            :font-size "30px"
             :font-family "'Oswald', sans-serif"
-            :transform "rotate(-90deg) translate(-50%, -150%)"})
+            :transform "rotate(-90deg) translate(-50%, -200%)"})
 
 (defstyles nospam-text []
            {:color "white"
             :padding-left "30px"
             :position "relative"
             :font-family "'Oswald', sans-serif"
-            :font-size "50px"
+            :font-weight "bold"
+            :font-size "75px"
             :-webkit-text-fill-color "transparent"; /* Will override color (regardless of order) */
             :-webkit-text-stroke-width "1px";
             :-webkit-text-stroke-color "white"});})
 
 (defstyles nospam []
            {:justify-content "center"
-            :margin-top "50px"})
+            :margin-top "120px"})
+
+(defstyles contact-inputs []
+           {:display "flex"
+            :justify-content "center"})
+
+(defstyles contact-input-name []
+          {})
+
+(defstyles contact-input []
+           {:background "transparent"
+            :border "1px solid lightgrey"
+            :border-radius "3px"
+            :color "lightgrey"
+            :margin-left "10px"
+            :font-family "'Roboto', sans-serif"
+            :padding "10px"
+            :z-index "1"})
+
+(defstyles contact-input-email []
+           {:flex-basis "500px"
+            :color "lightgrey"})
+
+
+(defstyles subscribe-button []
+           {:font-family "'Oswald', sans-serif"
+            :color "white"
+            :transform "translateX(-2px)"
+            :position "relative"
+            :z-index "0"
+            :padding "10px 20px"
+            :border (str "1px solid " (color :highlight-color))
+            :background (color :highlight-color)})

@@ -38,6 +38,11 @@
   (reitit-ring/ring-handler
    (reitit-ring/router
     [["/" {:get {:handler index-handler}}]
+     ["/contact" {:get {:handler index-handler}}]
+     ["/faq" {:get {:handler index-handler}}]
+     ["/fact" {:get {:handler index-handler}}]
+     ["/shop" {:get {:handler index-handler}}]
+
      ["/items"
       ["" {:get {:handler index-handler}}]
       ["/:item-id" {:get {:handler index-handler
