@@ -10,18 +10,11 @@
    [swordfish.css.utils :as css]
    [accountant.core :as accountant]))
 
-
-
-
-
 ;; -------------------------
 ;; Initialize app
 
 (defn mount-root []
-  (css/remove-styles!)
   (rdom/render [main/current-page] (.getElementById js/document "app")))
-
-
 
 (defn init! []
   (clerk/initialize!)

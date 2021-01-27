@@ -14,9 +14,13 @@
    [:title "Swordfish"]
    [:link {:rel "icon" :type "image/png" :href "/img/favicon.png"}]
    [:meta {:charset "utf-8"}]
+   [:meta {:name "theme-color"
+           :content "#181819"}]
    [:meta {:name "viewport"
            :content "width=device-width, initial-scale=1"}]
+   (include-css "/css/normalize.css")
    (include-css (if (env :dev) "/css/site.css" "/css/site.min.css"))])
+
 
 (defn loading-page []
   (html5

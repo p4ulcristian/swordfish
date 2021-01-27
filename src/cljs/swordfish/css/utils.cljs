@@ -1,10 +1,5 @@
-(ns swordfish.css.utils
-  (:require
-    [cljss.core :refer-macros [defstyles defkeyframes font-face] :as css]))
+(ns swordfish.css.utils)
 
-
-(defn remove-styles! []
-  (css/remove-styles!))
 
 (def color-scheme
   (atom {:wall-color "#181819"
@@ -15,29 +10,29 @@
 (defn color [the-key]
   (get @color-scheme the-key))
 
-(defstyles padding [param]
+(defn padding [param]
            {:padding param})
 
-(defstyles width [param]
+(defn width [param]
            {:width param})
 
-(defstyles font-size [param]
+(defn font-size [param]
            {:font-size param})
 
-(defstyles position  [param]
+(defn position  [param]
            {:position param})
 
-(defstyles text-color [param]
+(defn text-color [param]
            {:color param})
 
-(defstyles vertical-align []
+(defn vertical-align []
            {:display "flex"
             :align-items "center"})
 
-(defstyles content-width []
+(defn content-width []
            {:max-width "1200px" :margin "auto"
             :position "relative"})
 
 
-(defstyles flex []
+(defn flex []
            {:display "flex"})
