@@ -11,6 +11,12 @@
 (defn color [the-key]
   (get @color-scheme the-key))
 
+(defn min-width-media [width style]
+  {:media {{:screen :only :min-width width} style}})
+
+(defn max-width-media [width style]
+  {:media {{:screen :only :max-width width} style}})
+
 (def stroked-word
   {:-webkit-text-fill-color   "transparent"                 ; /* Will override color (regardless of order) */
    :-webkit-text-stroke-width "1px"                         ;
@@ -68,6 +74,18 @@
 ;; string, if you add a second vector is gets space separated
 (defn page-in-animation
   []
-  {:animation [[pulse-animation "1s"]]
+  {:animation  [[pulse-animation "1s"]]
    :transition "all 1s ease-out"})
 
+
+
+(defn mobile-menu []
+  (with-meta {:padding "0px 20px"
+              :color   "white"
+              :font-size "25px"}
+             (min-width-media "850px" {:display "none"})))
+
+(defn footer-sections []
+  (with-meta {:display   "flex"
+              :flex-wrap "wrap"}
+             (max-width-media "1000px" {:justify-content "center"})))

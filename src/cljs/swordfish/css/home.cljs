@@ -13,8 +13,7 @@
    :position        "absolute"
    :pointer-events  "none"
    :right           0
-   :top             "-150px"
-   :transform       "rotate(10deg)"})
+   :top             "-150px"})
 
 
 (defn background-logo-left []
@@ -22,35 +21,44 @@
    :bottom          0
    :height          "500px"
    :left            0
+   :max-width           "100%"
    :pointer-events  "none"
-   :position        "absolute"
-   :transform       "rotate(10deg)"})
+   :position        "absolute"})
+;:transform       "rotate(10deg)"})
 
 (defn logo-container []
-  {:z-index     "2"
-   :display     "flex"
-   :align-items "center"})
+  (with-meta {:align-items "center"
+              :display     "flex"
+              :flex-grow 1
+              :z-index     "2"}
+             (utils/max-width-media "850px" {:justify-content "center"})))
+
 
 
 (defn logo []
-  {:width   "300px"
-   :padding "0px 30px"})
+  (with-meta
+    {:width   "300px"
+     :padding "0px 30px"}
+    (utils/max-width-media "850px" {:padding "0px 30px 0px 0px"})))
 
 (defn navbar []
   {:padding-top "30px"
    :display     "flex"
-
    :height      "70px"})
 
+
+
 (defn menu []
-  {:display         "flex"
-   :height          "100%"
-   :flex-basis      "500px"
-   :z-index         "2"
-   :font-family     "'Oswald', sans-serif"
-   :font-weight     "600"
-   :font-size       "20px"
-   :justify-content "space-around"})
+  (with-meta
+    {:display         "flex"
+     :height          "100%"
+     :flex-basis      "500px"
+     :z-index         "2"
+     :font-family     "'Oswald', sans-serif"
+     :font-weight     "600"
+     :font-size       "20px"
+     :justify-content "space-around"}
+    (utils/max-width-media "850px" {:display "none"})))
 
 (defn menu-item-active [active?]
   (if active? (color :highlight-color)
@@ -65,10 +73,12 @@
                                  :cursor "pointer"}}}))
 
 (defn nav-line []
-  {:height        "50%"
-   :flex-grow     1
-   :z-index       "2"
-   :border-bottom (str "1px solid " (color :text-color))})
+  (with-meta
+    {:height        "50%"
+     :flex-grow     1
+     :z-index       "2"
+     :border-bottom (str "1px solid " (color :text-color))}
+    (utils/max-width-media "850px" {:display "none"})))
 
 (defn wakizashi []
   {:position  "absolute"
@@ -77,6 +87,7 @@
    :font-size "15px"
    :left      "5%"
    :top       "120px"})
+
 
 
 
@@ -95,8 +106,16 @@
 
 (defn footer-link []
   (with-meta
-    {:flex-basis "content"}
+    {:flex-basis "content"
+     :text-align "center"}
     {:pseudo {:hover {:color (color :highlight-color)}}}))
+
+(defn footer-links []
+  {:padding         "0px 0px 0px 20px"
+   :display         "flex"
+   :flex-wrap       "wrap"
+   :justify-content "center"})
+
 
 (defn wakizashi-description []
   (merge utils/roboto
@@ -106,10 +125,11 @@
           :color          (color :text-color)}))
 
 (defn copyright []
-  {:flex-grow       1
-   :display         "flex"
-   :margin-right    "10px"
-   :justify-content "flex-end"})
+  (with-meta {:flex-grow       1
+              :display         "flex"
+              :margin-right    "10px"
+              :justify-content "flex-end"}
+             (utils/max-width-media "1000px" {:justify-content "center"})))
 
 (defn price []
   {:display          "flex"
@@ -151,7 +171,8 @@
   {:width "100%" :position "relative"})
 
 (defn one-badge-container []
-  {:flex-basis "30%" :padding "20px"})
+  (with-meta {:flex-basis "400px" :padding "20px"}
+             (utils/min-width-media "1100px" {:flex-basis "30%" :padding "20px"})))
 
 
 
@@ -178,6 +199,7 @@
 
 (defn badges-container []
   {:display    "flex" :justify-content "center"
+   :flex-wrap  "wrap"
    :margin-top "50px"})
 
 (defn badge-content-container []

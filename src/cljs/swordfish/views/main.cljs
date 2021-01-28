@@ -21,9 +21,15 @@
         :class (x-class css-home/menu-item (db/this-page? the-key))
         :href (path-for the-key)} name]])
 
+(defn mobile-menu []
+  [:button {:class (x-class css-utils/mobile-menu)
+            :on-click #(db/toggle-menu)} [:span {:class "fas fa-bars"}]])
+
+
 (defn navbar []
   [:header
    [:div {:class [(x-class css-utils/content-width) (x-class css-home/navbar)]}
+    [mobile-menu]
     [:a {:href "/" :class (x-class css-home/logo-container)}
      [:img {:class (x-class css-home/logo) :src "/img/logo.svg"}]]
     [:div {:class (x-class css-home/nav-line)}]
@@ -42,8 +48,7 @@
    title])
 
 (defn footer-links []
-  [:div {:class [(x-class css-utils/flex)
-                 (x-class css-utils/padding "0px 0px 0px 20px")]}
+  [:div {:class [(x-class css-home/footer-links)]}
    [footer-link "PRIVACY POLICY" ""]
    [footer-link "SHIPPING & HANDLING" ""]
    [footer-link "RETURN POLICY" ""]
@@ -68,11 +73,14 @@
      "© 2020, Swordfish Fins."]
     [copyright-social-icons]]])
 
+(defn footer-paying []
+  [:div {:class [(x-class css-utils/padding "10px 0px")]}
+   [:img {:src "/img/paying.png" :class (x-class css-home/footer-paying)}]])
+
 (defn footer []
   [:footer {:class [ (x-class css-home/footer)]}
-   [:div {:class [(x-class css-utils/flex) (x-class css-utils/content-width)]}
-    [:div {:class [(x-class css-utils/padding "10px 0px")]}
-     [:img {:src "/img/paying.png" :class (x-class css-home/footer-paying)}]]
+   [:div {:class [(x-class css-utils/footer-sections) (x-class css-utils/content-width)]}
+    [footer-paying]
     [footer-links]
     [copyright]]])
 
@@ -85,10 +93,6 @@
 ;; -------------------------
 ;; Page mounting component
 
-(defn herb-try []
-  {:background "red"
-   :color "white"})
-
 (defn current-page []
   (fn []
     (let [page (:current-page (session/get :route))]
@@ -99,3 +103,4 @@
         [:div  {:class (x-class css-utils/for-page-design)}
          [navbar]
          [page]]]])))
+         ;[background-logo]]]])))

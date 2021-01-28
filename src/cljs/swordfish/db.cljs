@@ -1,8 +1,9 @@
 (ns swordfish.db
   (:require [reagent.core :as reagent :refer [atom]]))
 
-(def db (atom {:page :home
-               :accordions []}))
+(def db (atom {:accordions []
+               :menu false
+               :page :home}))
 
 (defn conj-set-vec [list item]
   (vec (set (conj list item))))
@@ -34,4 +35,12 @@
 
 (defn this-page? [page]
   (if (= page (get-page)) true false))
+
+;menu
+
+(defn toggle-menu []
+  (swap! db assoc :menu (not (:menu @db))))
+
+(defn menu-open? []
+  (:menu @db))
 
