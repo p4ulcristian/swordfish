@@ -1,10 +1,11 @@
 (ns swordfish.views.shop
   (:require
-    [reagent.core :as reagent :refer [atom]]
     [herb.core :refer [<class <id] :rename {<class x-class <id x-id}]
+    [reagent.core :as reagent :refer [atom]]
     [swordfish.css.utils :as css-utils]
     [swordfish.css.shop :as css]
-    [swordfish.views.icons :as icons]))
+    [swordfish.views.icons :as icons]
+    [swordfish.views.utils :refer [down-arrow]]))
 
 
 (defn wakizashi-logo []
@@ -15,22 +16,33 @@
   [:div {:class (x-class css/product-title)} title])
 
 (defn product-type [title]
-  [:div  {:class (x-class css/product-type)} title])
+  [:div {:class (x-class css/product-type)} title])
 
 (defn product-price [title]
   [:div {:class (x-class css/product-price)} title])
 
-(defn product-photos [type photos]
-  [:div (str photos)])
+(defn product-photo [photo]
+  [:div {:class (x-class css/product-photo-container)}
+   [:img {:class (x-class css/product-photo)
+          :src   photo}]])
 
-(defn main-product []
+
+(defn product-photos [photos]
+  [:div {:class (x-class css/product-photos-container)}
+   [:div {:class (x-class css/product-photos)}
+    (for [photo photos] [product-photo photo])]])
+
+(defn product [{:keys [title type price photos]}]
+  [:div {:class (x-class css/product-card (first photos))}
+   [:div
+    [product-title title]
+    [product-type type]
+    [product-price price]]
+   [product-photos photos]])
+
+(defn main-product [product]
   [:div {:class (x-class css/main-product-container)}
-   [:div {:class (x-class css/main-product-card)}
-    [:div
-     [product-title "SWORDFISH WAKIZASHI"]
-     [product-type "CARBON FIBRE MONOFIN"]
-     [product-price "€ 950"]]
-    [product-photos :bottom ["/img/main-product.png"]]]])
+   product])
 
 (defn spacer []
   [:div {:class (x-class css/spacer)}])
@@ -72,9 +84,43 @@
 (defn main-section []
   [:div {:class (x-class css/main-section)}
    [wakizashi-logo]
-   [main-product]
+   [main-product [product {:title  "SWORDFISH WAKIZASHI"
+                           :type   "CARBON FIBRE MONOFIN"
+                           :price  "€ 950"
+                           :photos ["/img/products/main.png"
+                                    "/img/products/1.png"
+                                    "/img/products/2.png"]}]]
    [main-description]])
+
+(defn parts-section []
+  [:div {:class (x-class css/parts-section)}
+   [:div [product {:title  "SWORDFISH"
+                   :type   "CENTRAL SLIDER"
+                   :price  "€ 120"
+                   :photos ["/img/products/1.png"
+                            "/img/products/1.png"
+                            "/img/products/2.png"]}]]
+   [:div [product {:title  "SWORDFISH WAKIZASHI"
+                   :type   "REPLACEMENT BRASS AXLE 8X150MM"
+                   :price  "€ 5"
+                   :photos ["/img/products/2.png"
+                            "/img/products/1.png"
+                            "/img/products/2.png"]}]]
+   [:div [product {:title  "SWORDFISH WAKIZASHI"
+                   :type   "CARBON FIBRE BLADE SET"
+                   :price  "€ 480"
+                   :photos ["/img/products/3.png"
+                            "/img/products/1.png"
+                            "/img/products/2.png"]}]]
+   [:div [product {:title  "SWORDFISH FEET SECTION"
+                   :type   "POLYURETHANE & CARBON COMPOSITE"
+                   :price  "€ 480"
+                   :photos ["/img/products/4.png"
+                            "/img/products/1.png"
+                            "/img/products/2.png"]}]]])
 
 (defn shop []
   [:div {:class (x-class css-utils/content-width)}
-   [main-section]])
+   [main-section]
+   [down-arrow]
+   [parts-section]])

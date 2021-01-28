@@ -1,6 +1,6 @@
 (ns swordfish.css.home
   (:require
-    [swordfish.css.utils :refer [color]]))
+    [swordfish.css.utils :as utils :refer [color]]))
 
 
 (defn background []
@@ -92,11 +92,12 @@
 (defn footer-link []
   {:flex-basis "content"})
 
-(defn p-font []
-  {:font-family    "'Roboto', sans-serif"
-   :line-height    "25px"
-   :text-transform "uppercase"
-   :color          (color :text-color)})
+(defn wakizashi-description []
+  (merge utils/roboto
+         {:line-height    "25px"
+          :padding        "30px 0px 30px 0px"
+          :text-transform "uppercase"
+          :color          (color :text-color)}))
 
 (defn copyright []
   {:flex-grow       1
@@ -210,15 +211,13 @@
    :transform   "rotate(-90deg) translate(-50%, -200%)"})
 
 (defn nospam-text []
-  {:color                     "white"
-   :padding-left              "30px"
-   :position                  "relative"
-   :font-family               "'Oswald', sans-serif"
-   :font-weight               "bold"
-   :font-size                 "75px"
-   :-webkit-text-fill-color   "transparent"                 ; /* Will override color (regardless of order) */
-   :-webkit-text-stroke-width "1px"                         ;
-   :-webkit-text-stroke-color "white"})                     ;})
+  (merge utils/stroked-word
+         {:color                     "white"
+          :padding-left              "30px"
+          :position                  "relative"
+          :font-family               "'Oswald', sans-serif"
+          :font-weight               "bold"
+          :font-size                 "75px"}))
 
 (defn nospam []
   {:justify-content "center"
@@ -232,7 +231,7 @@
   {})
 
 (defn contact-input []
-  {:background    "transparent"
+  {:background    (color :wall-color)
    :border        "1px solid lightgrey"
    :border-radius "3px"
    :color         "lightgrey"

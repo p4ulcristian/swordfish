@@ -1,10 +1,13 @@
 (ns swordfish.views.home
   (:require
+    [accountant.core :as accountant]
+    [herb.core :refer [<class <id] :rename {<class x-class <id x-id}]
     [reagent.core :as reagent :refer [atom]]
     [swordfish.css.home :as css-home]
-    [herb.core :refer [<class <id] :rename {<class x-class <id x-id}]
     [swordfish.css.utils :as css-utils]
-    [accountant.core :as accountant]))
+    [swordfish.setup]
+    [swordfish.views.utils :refer [down-arrow]]
+    [swordfish.utils :as utils]))
 
 (defn price-card-price []
   [:div {:class [(x-class css-utils/font-size "50px") (x-class css-utils/padding "10px 0px")]}
@@ -29,12 +32,9 @@
 
 (defn social-icons []
   [:div {:class (x-class css-home/social-icons)}
-   [social-icon "fab fa-facebook" "https://www.facebook.com/swordfishfins"]
-   [social-icon "fab fa-youtube" "https://www.youtube.com/channel/UCT17xq2yVM77mdiXMkzd1hg"]
-   [social-icon "fab fa-instagram" "https://www.instagram.com/swordfishfins/"]])
-
-(defn down-arrow []
-  [:div {:class (x-class css-home/down-arrow)} [:img {:src "/img/down-arrow.png"}]])
+   [social-icon "fab fa-facebook" swordfish.setup/facebook-link]
+   [social-icon "fab fa-youtube" swordfish.setup/youtube-link]
+   [social-icon "fab fa-instagram" swordfish.setup/instagram-link]])
 
 (defn badge [img-url title desc]
   [:div {:class (x-class css-home/one-badge-container)}
@@ -55,7 +55,7 @@
 (defn wakizashi []
   [:div {:class (x-class css-home/wakizashi)}
    [:img {:src "/img/wakizashi.svg"}]
-   [:p {:class (x-class css-home/p-font)}
+   [:div {:class (x-class css-home/wakizashi-description)}
     [:p "This is the area I have to fill with marketing text that makes you want to wear a Swordfish fin so bad you
        can’t resist hitting that add to cart button"]]
    [price-card]])

@@ -1,16 +1,17 @@
 (ns swordfish.views.main
   (:require
+    [accountant.core :as accountant]
     [herb.core :refer [<class <id] :rename {<class x-class <id x-id}]
-    ;demo purpose
     [reagent.core :as reagent :refer [atom]]
     ;[reagent.dom :as rdom]
     [reagent.session :as session]
     ;[reitit.frontend :as reitit]
     [swordfish.css.home :as css-home]
-    [swordfish.utils :as utils]
     [swordfish.css.utils :as css-utils]
     [swordfish.router :refer [path-for]]
-    [accountant.core :as accountant]))
+    [swordfish.setup]
+    [swordfish.utils :as utils]))
+
 
 
 (defn menu-link [name href]
@@ -54,9 +55,9 @@
 
 (defn copyright-social-icons []
   [:div {:class [(x-class css-home/copyright-social-icons)]}
-   [social-icon "fab fa-facebook" "https://www.facebook.com/swordfishfins"]
-   [social-icon "fab fa-youtube" "https://www.youtube.com/channel/UCT17xq2yVM77mdiXMkzd1hg"]
-   [social-icon "fab fa-instagram" "https://www.instagram.com/swordfishfins/"]])
+   [social-icon "fab fa-facebook" swordfish.setup/facebook-link]
+   [social-icon "fab fa-youtube" swordfish.setup/youtube-link]
+   [social-icon "fab fa-instagram" swordfish.setup/instagram-link]])
 
 (defn copyright []
   [:div {:class [(x-class css-home/copyright) (x-class css-utils/vertical-align)]}
@@ -91,6 +92,8 @@
     (let [page (:current-page (session/get :route))]
       [:div  {:class (x-class css-home/background)}
        [background-logo]
-       [navbar]
-       [page]
-       [footer]])))
+       [:div {:class (x-class css-utils/for-footer-design)}
+        [footer]
+        [:div  {:class (x-class css-utils/for-page-design)}
+         [navbar]
+         [page]]]])))
