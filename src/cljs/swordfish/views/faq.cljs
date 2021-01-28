@@ -121,7 +121,7 @@
    [contact-buttons]])
 
 (defn faq []
-  [:div  {:class (x-class css-utils/content-width)}
+  [:div  {:class [(x-class css-utils/page-in-animation) (x-class css-utils/content-width)]}
    [title]
    [accordions]
    [have-questions?]])

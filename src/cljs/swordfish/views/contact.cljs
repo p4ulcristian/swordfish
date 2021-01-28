@@ -44,7 +44,7 @@
    [:div [:a {:class (x-class css/link) :href "mailto:info@swordfishfins.com"} "info@swordfishfins.com"]]])
 
 (defn contact []
-  [:div
+  [:div {:class (x-class css-utils/page-in-animation)}
    [questions?]
    [fill-the-form]
    [form]

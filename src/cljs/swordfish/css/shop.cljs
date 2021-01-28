@@ -16,8 +16,8 @@
                               :justify-content "center"
                               :margin-bottom   "50px"}}}))
 
-
 ;product-card
+
 (defn product-photos-container []
   {:flex-grow 1})
 

@@ -120,7 +120,7 @@
                             "/img/products/2.png"]}]]])
 
 (defn shop []
-  [:div {:class (x-class css-utils/content-width)}
+  [:div {:class [(x-class css-utils/page-in-animation) (x-class css-utils/content-width)]}
    [main-section]
    [down-arrow]
    [parts-section]])

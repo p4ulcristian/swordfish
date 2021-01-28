@@ -1,4 +1,5 @@
-(ns swordfish.css.utils)
+(ns swordfish.css.utils
+  (:require [herb.core :refer [<class <id defkeyframes] :rename {<class x-class <id x-id}]))
 
 
 (def color-scheme
@@ -57,3 +58,16 @@
 
 (defn flex []
   {:display "flex"})
+
+
+(defkeyframes pulse-animation
+              [:from {:opacity 0}]
+              [:to {:opacity 1}])
+
+;; In garden, if you use a single vector [arg1 arg1] you get a comma separated
+;; string, if you add a second vector is gets space separated
+(defn page-in-animation
+  []
+  {:animation [[pulse-animation "1s"]]
+   :transition "all 1s ease-out"})
+

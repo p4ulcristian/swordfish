@@ -94,7 +94,7 @@
 
 (defn home-page []
   (fn []
-    [:div {:class [(x-class css-utils/content-width)]}
+    [:div {:class [(x-class css-utils/content-width) (x-class css-utils/page-in-animation)]}
      [:div {:class (x-class css-home/home-container)}
       [:img {:width "100%" :src "/img/main-product.png"}]
       [utils/social-icons]
