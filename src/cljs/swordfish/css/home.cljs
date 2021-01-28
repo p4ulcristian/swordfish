@@ -52,12 +52,15 @@
    :font-size       "20px"
    :justify-content "space-around"})
 
-(defn menu-item []
-  (with-meta {:color           (str (color :text-color))
-              :text-decoration "none"}
-             {:pseudo {:active  {:color (str (color :text-color))}
-                       :link    {:color (str (color :text-color))}
-                       :visited {:color (str (color :text-color))}
+(defn menu-item-active [active?]
+  (if active? (color :highlight-color)
+              (color :text-color)))
+
+(defn menu-item [active?]
+  (with-meta {:text-decoration "none"}
+             {:pseudo {:active  {:color (menu-item-active active?)}
+                       :link    {:color (menu-item-active active?)}
+                       :visited {:color (menu-item-active active?)}
                        :hover   {:color  (color :highlight-color)
                                  :cursor "pointer"}}}))
 
@@ -84,13 +87,16 @@
    :height     "25px"})
 
 (defn footer []
-  {:background "white"
-   :font-size  "14px"
-   ;:height "50px"
-   :width      "100%"})
+  (merge utils/roboto
+         {:background "white"
+          :font-size  "14px"
+          ;:height "50px"
+          :width      "100%"}))
 
 (defn footer-link []
-  {:flex-basis "content"})
+  (with-meta
+    {:flex-basis "content"}
+    {:pseudo {:hover {:color (color :highlight-color)}}}))
 
 (defn wakizashi-description []
   (merge utils/roboto
@@ -194,7 +200,6 @@
 
 (defn contact-social-icons []
   {:display         "flex"
-   :margin          "60px 0px 180px 0px"
    :justify-content "center"})
 
 (defn copyright-social-icons []
@@ -212,12 +217,12 @@
 
 (defn nospam-text []
   (merge utils/stroked-word
-         {:color                     "white"
-          :padding-left              "30px"
-          :position                  "relative"
-          :font-family               "'Oswald', sans-serif"
-          :font-weight               "bold"
-          :font-size                 "75px"}))
+         {:color        "white"
+          :padding-left "30px"
+          :position     "relative"
+          :font-family  "'Oswald', sans-serif"
+          :font-weight  "bold"
+          :font-size    "75px"}))
 
 (defn nospam []
   {:justify-content "center"

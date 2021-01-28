@@ -5,6 +5,7 @@
    [reagent.session :as session]
    [reitit.frontend :as reitit]
    [clerk.core :as clerk]
+   [swordfish.db :as db]
    [swordfish.router :refer [router page-for]]
    [swordfish.views.main :as main]
    [swordfish.css.utils :as css]
@@ -24,6 +25,7 @@
       (let [match (reitit/match-by-path router path)
             current-page (:name (:data  match))
             route-params (:path-params match)]
+        (db/change-page current-page)
         (reagent/after-render clerk/after-render!)
         (session/put! :route {:current-page (page-for current-page)
                               :route-params route-params})

@@ -8,17 +8,18 @@
     ;[reitit.frontend :as reitit]
     [swordfish.css.home :as css-home]
     [swordfish.css.utils :as css-utils]
+    [swordfish.db :as db]
     [swordfish.router :refer [path-for]]
     [swordfish.setup]
-    [swordfish.utils :as utils]))
+    [swordfish.views.utils :as utils]))
 
 
 
-(defn menu-link [name href]
+(defn menu-link [name the-key]
   [:div {:class (x-class css-utils/vertical-align)}
    [:a {:data-selected "true"
-        :class (x-class css-home/menu-item)
-        :href href} name]])
+        :class (x-class css-home/menu-item (db/this-page? the-key))
+        :href (path-for the-key)} name]])
 
 (defn navbar []
   [:header
@@ -27,16 +28,17 @@
      [:img {:class (x-class css-home/logo) :src "/img/logo.svg"}]]
     [:div {:class (x-class css-home/nav-line)}]
     [:div {:class (x-class css-home/menu)}
-     [menu-link "HOME" (path-for :index)]
-     [menu-link "SHOP" (path-for :shop)]
-     [menu-link "FACT" (path-for :fact)]
-     [menu-link "FAQ" (path-for :faq)]
-     [menu-link "CONTACT" (path-for :contact)]]]])
+     [menu-link "HOME" :index]
+     [menu-link "SHOP" :shop]
+     [menu-link "FACT" :fact]
+     [menu-link "FAQ" :faq]
+     [menu-link "CONTACT" :contact]]]])
 
 (defn footer-link [title href]
-  [:div {:class [(x-class css-utils/padding "10px")
-                 (x-class css-home/footer-link)
-                 (x-class css-utils/vertical-align)]}
+  [:a {:href href
+       :class [(x-class css-utils/padding "10px")
+               (x-class css-home/footer-link)
+               (x-class css-utils/vertical-align)]}
    title])
 
 (defn footer-links []

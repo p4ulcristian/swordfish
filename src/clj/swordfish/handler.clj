@@ -13,6 +13,10 @@
   [:head
    [:title "Swordfish"]
    [:link {:rel "icon" :type "image/png" :href "/img/favicon.png"}]
+   [:link {:href "https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&display=swap"
+           :rel "stylesheet"}]
+   [:link {:href "https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
+           :rel "stylesheet"}]
    [:meta {:charset "utf-8"}]
    [:meta {:name "theme-color"
            :content "#181819"}]

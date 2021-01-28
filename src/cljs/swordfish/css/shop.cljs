@@ -1,6 +1,6 @@
 (ns swordfish.css.shop
   (:require
-    [swordfish.css.utils :refer [color]]))
+    [swordfish.css.utils :refer [color] :as utils]))
 
 
 ;parts-section

@@ -21,8 +21,10 @@
 (def roboto
   {:font-family "'Roboto', sans-serif"})
 
-
 (defn padding [param]
+  {:padding param})
+
+(defn margin [param]
   {:padding param})
 
 (defn width [param]
@@ -52,7 +54,6 @@
 
 (defn for-page-design []
   {:flex-grow 1})
-
 
 (defn flex []
   {:display "flex"})

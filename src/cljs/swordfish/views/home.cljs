@@ -7,7 +7,7 @@
     [swordfish.css.utils :as css-utils]
     [swordfish.setup]
     [swordfish.views.utils :refer [down-arrow]]
-    [swordfish.utils :as utils]))
+    [swordfish.views.utils :as utils]))
 
 (defn price-card-price []
   [:div {:class [(x-class css-utils/font-size "50px") (x-class css-utils/padding "10px 0px")]}
@@ -24,17 +24,6 @@
    [:div {:class [(x-class css-utils/vertical-align) (x-class css-utils/padding "10px")]}
     [shop-now-text]]])
 
-(defn social-icon [class url]
-  [:div
-   {:class (x-class css-home/social-icon)}
-   [:a {:href url :target "_blank" :class (x-class css-home/social-icon-href)}
-    [:span {:class class}]]])
-
-(defn social-icons []
-  [:div {:class (x-class css-home/social-icons)}
-   [social-icon "fab fa-facebook" swordfish.setup/facebook-link]
-   [social-icon "fab fa-youtube" swordfish.setup/youtube-link]
-   [social-icon "fab fa-instagram" swordfish.setup/instagram-link]])
 
 (defn badge [img-url title desc]
   [:div {:class (x-class css-home/one-badge-container)}
@@ -88,24 +77,15 @@
             :placeholder "Your email"}]
    [subscribe-button]])
 
-(defn contact-social-icon [url]
-  [:div {:class (x-class css-home/contact-social-icon)}
-   [:a {:href ""}
-    [:img {:src url}]]])
 
-
-(defn contact-social-icons []
-  [:div {:class (x-class css-home/contact-social-icons)}
-   [contact-social-icon "/img/icons/youtube.svg"]
-   [contact-social-icon "/img/icons/facebook.svg"]
-   [contact-social-icon "/img/icons/instagram.svg"]])
 
 (defn contact []
   [:div
    [no-spam-no-nonsense]
    [contact-description]
    [contact-inputs]
-   [contact-social-icons]])
+   [:div {:class (x-class css-utils/margin "60px 0px 180px 0px")}
+    [utils/contact-social-icons]]])
 
 
 (defn background-logo-left []
@@ -117,7 +97,7 @@
     [:div {:class [(x-class css-utils/content-width)]}
      [:div {:class (x-class css-home/home-container)}
       [:img {:width "100%" :src "/img/main-product.png"}]
-      [social-icons]
+      [utils/social-icons]
       [down-arrow]]
      [wakizashi]
      [badges]
