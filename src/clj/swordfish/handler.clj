@@ -8,7 +8,6 @@
 (def mount-target
   [:div#app])
 
-
 (defn head []
   [:head
    [:title "Swordfish"]
@@ -49,13 +48,7 @@
      ["/contact" {:get {:handler index-handler}}]
      ["/faq" {:get {:handler index-handler}}]
      ["/fact" {:get {:handler index-handler}}]
-     ["/shop" {:get {:handler index-handler}}]
-
-     ["/items"
-      ["" {:get {:handler index-handler}}]
-      ["/:item-id" {:get {:handler index-handler
-                          :parameters {:path {:item-id int?}}}}]]
-     ["/about" {:get {:handler index-handler}}]])
+     ["/shop" {:get {:handler index-handler}}]])
    (reitit-ring/routes
     (reitit-ring/create-resource-handler {:path "/" :root "/public"})
     (reitit-ring/create-default-handler))
