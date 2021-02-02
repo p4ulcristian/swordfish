@@ -11,7 +11,7 @@
 (def router
   (reitit/router
     [["/" :index]
-     ["/shop" :shop]
+     ["/shop/:product" :shop]
      ["/fact" :fact]
      ["/faq" :faq]
      ["/contact" :contact]]))

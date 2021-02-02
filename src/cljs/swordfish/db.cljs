@@ -3,7 +3,44 @@
 
 (def db (atom {:accordions []
                :menu       false
-               :page       :index}))
+               :page       :index
+               :products   [;Main Product
+                            {:id     "wakizashi"
+                             :title  "SWORDFISH WAKIZASHI"
+                             :type   "CARBON FIBRE MONOFIN"
+                             :price  "€ 950"
+                             :photos ["/img/products/main.png"
+                                      "/img/products/1.png"
+                                      "/img/products/2.png"]}
+                            ;Other products
+                            {:id     "central-slider"
+                             :title  "SWORDFISH"
+                             :type   "CENTRAL SLIDER"
+                             :price  "€ 120"
+                             :photos ["/img/products/1.png"
+                                      "/img/products/1.png"
+                                      "/img/products/2.png"]}
+                            {:id     "brass-axle"
+                             :title  "SWORDFISH WAKIZASHI"
+                             :type   "REPLACEMENT BRASS AXLE 8X150MM"
+                             :price  "€ 5"
+                             :photos ["/img/products/2.png"
+                                      "/img/products/1.png"
+                                      "/img/products/2.png"]}
+                            {:id     "carbon-fibre"
+                             :title  "SWORDFISH WAKIZASHI"
+                             :type   "CARBON FIBRE BLADE SET"
+                             :price  "€ 480"
+                             :photos ["/img/products/3.png"
+                                      "/img/products/1.png"
+                                      "/img/products/2.png"]}
+                            {:id     "feet"
+                             :title  "SWORDFISH FEET SECTION"
+                             :type   "POLYURETHANE & CARBON COMPOSITE"
+                             :price  "€ 480"
+                             :photos ["/img/products/4.png"
+                                      "/img/products/1.png"
+                                      "/img/products/2.png"]}]}))
 
 (defn conj-set-vec [list item]
   (vec (set (conj list item))))
@@ -60,14 +97,13 @@
 
 ;;;Routes
 
-(defn change-page [the-key]
-  (swap! db assoc :page the-key))
+(defn change-page [the-key params]
+  (swap! db assoc :page the-key :query-params params))
 
 (defn get-page []
   (:page @db))
 
 (defn this-page? [page]
-  (.log js/console "hey" page)
   (if (= page (get-page)) true false))
 
 ;menu
@@ -77,4 +113,17 @@
 
 (defn menu-open? []
   (:menu @db))
+
+(defn get-query-params []
+  (:query-params @db))
+
+(defn get-main-product []
+  (first (:products @db)))
+
+(defn get-product [the-name]
+  (first (filter #(= the-name (:id %))
+                 (:products @db))))
+
+(defn get-rest-products []
+  (vec (rest (:products @db))))
 

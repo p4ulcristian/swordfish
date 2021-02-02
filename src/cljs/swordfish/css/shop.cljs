@@ -5,17 +5,18 @@
 
 
 ;parts-section
-(defn parts-section []
-  (with-meta
-    {:display         "flex"
-     :flex-wrap       "wrap"
-     :padding-bottom  "50px"
-     :justify-content "center"
-     :padding-top     "30px"}
-    {:combinators {[:> :div] {:flex          "0 50%"
-                              :display       "flex"
+(defn one-part []
+  {:flex          "0 50%"
+   :margin-bottom "50px"})
 
-                              :margin-bottom "50px"}}}))
+
+(defn parts-section []
+  {:display         "flex"
+   :flex-wrap       "wrap"
+   :padding-bottom  "50px"
+   :justify-content "center"
+   :padding-top     "30px"})
+
 
 ;product-card
 
@@ -105,26 +106,31 @@
 ;;Main product
 
 (defn product-card [url]
-  {:background-image    (str "url(" url ")")
-   :background-size     "contain"
-   :background-repeat   "no-repeat"
-   :background-position "center"
-   :background-color    "#1D1D1F"
-   :border-radius       "25px"
-   :display             "flex"
-   :flex-direction      "column"
-   :height              (cond
-                          (db/l?) "500px"
-                          (db/m?) "500px"
-                          (db/s?) "500px"
-                          (db/xs?) "300px"
-                          :else "300px")
-   :width               (cond
-                          (db/l?) "500px"
-                          (db/m?) "500px"
-                          (db/s?) "500px"
-                          (db/xs?) "300px"
-                          :else "300px")})
+  (with-meta
+    {:background-image    (str "url(" url ")")
+     :background-size     "contain"
+     :background-repeat   "no-repeat"
+     :background-position "center"
+     :background-color    "#1D1D1F"
+     :border-radius       "25px"
+     :cursor              "pointer"
+     :display             "flex"
+     :margin              "auto"
+     :flex-direction      "column"
+     :height              (cond
+                            (db/l?) "500px"
+                            (db/m?) "500px"
+                            (db/s?) "500px"
+                            (db/xs?) "300px"
+                            :else "300px")
+     :transition          "0.1s ease"
+     :width               (cond
+                            (db/l?) "500px"
+                            (db/m?) "500px"
+                            (db/s?) "500px"
+                            (db/xs?) "300px"
+                            :else "300px")}
+    {:pseudo {:hover {:transform "translate(0px, 10px)"}}}))
 
 
 

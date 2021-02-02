@@ -24,17 +24,17 @@
             ["CONTACT" :contact]])
 
 
-(defn menu-link [name the-key]
+(defn menu-link [name the-key params]
   [:div {:class (x-class css-utils/vertical-align)}
    [:a {:data-selected "true"
         :class         (x-class css-main/menu-item (db/this-page? the-key))
-        :href          (path-for the-key)} name]])
+        :href          (path-for the-key {:product "main"})} name]])
 
 (defn mobile-menu-link [name the-key]
   [:div {:class (x-class css-main/mobile-menu-item (db/this-page? the-key))}
    [:a {:data-selected "true"
         :on-click #(db/toggle-menu)
-        :href          (path-for the-key)} name]])
+        :href          (path-for the-key {:product "main"})} name]])
 
 (defn mobile-menu []
   [:div {:class (x-class css-main/mobile-menu)}

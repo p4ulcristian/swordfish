@@ -69,7 +69,7 @@
    [:div {:class (x-class css/watch-our)} "WATCH OUR"]
    [:div {:class (x-class css/indiegogo)} "INDIEGOGO CAMPAIGN VIDEO FOR MORE FACTS"]
    [:div {:class (x-class css/youtube-logo)}
-    [:a {:href "https://www.youtube.com/channel/UCT17xq2yVM77mdiXMkzd1hg"}
+    [:a {:href "https://www.youtube.com/channel/UCT17xq2yVM77mdiXMkzd1hg" :target "_blank"}
      [:img {:src "/img/youtube-icon-fact.png"}]]]])
 
 (defn youtube-embed []

@@ -4,6 +4,7 @@
     [reagent.core :as reagent :refer [atom]]
     [swordfish.css.utils :as css-utils]
     [swordfish.css.shop :as css]
+    [swordfish.db :as db]
     [swordfish.views.icons :as icons]
     [swordfish.views.utils :refer [down-arrow]]))
 
@@ -29,10 +30,12 @@
 (defn product-photos [photos]
   [:div {:class (x-class css/product-photos-container)}
    [:div {:class (x-class css/product-photos)}
-    (for [photo photos] [product-photo photo])]])
+    (for [photo photos] ^{:key (random-uuid)}
+                        [product-photo photo])]])
 
-(defn product [{:keys [title type price photos]}]
-  [:div {:class (x-class css/product-card (first photos))}
+(defn product [{:keys [id title type price photos]}]
+  [:a {:href (str "/shop/" id)
+       :class (x-class css/product-card (first photos))}
    [:div
     [product-title title]
     [product-type type]
@@ -83,43 +86,28 @@
 (defn main-section []
   [:div {:class (x-class css/main-section)}
    [wakizashi-logo]
-   [main-product [product {:title  "SWORDFISH WAKIZASHI"
-                           :type   "CARBON FIBRE MONOFIN"
-                           :price  "€ 950"
-                           :photos ["/img/products/main.png"
-                                    "/img/products/1.png"
-                                    "/img/products/2.png"]}]]
+   [main-product [product (db/get-main-product)]]
    [main-description]])
+
+(defn one-part [item]
+  [:div
+   {:class (x-class css/one-part)}
+   [product item]])
 
 (defn parts-section []
   [:div {:class (x-class css/parts-section)}
-   [:div [product {:title  "SWORDFISH"
-                   :type   "CENTRAL SLIDER"
-                   :price  "€ 120"
-                   :photos ["/img/products/1.png"
-                            "/img/products/1.png"
-                            "/img/products/2.png"]}]]
-   [:div [product {:title  "SWORDFISH WAKIZASHI"
-                   :type   "REPLACEMENT BRASS AXLE 8X150MM"
-                   :price  "€ 5"
-                   :photos ["/img/products/2.png"
-                            "/img/products/1.png"
-                            "/img/products/2.png"]}]]
-   [:div [product {:title  "SWORDFISH WAKIZASHI"
-                   :type   "CARBON FIBRE BLADE SET"
-                   :price  "€ 480"
-                   :photos ["/img/products/3.png"
-                            "/img/products/1.png"
-                            "/img/products/2.png"]}]]
-   [:div [product {:title  "SWORDFISH FEET SECTION"
-                   :type   "POLYURETHANE & CARBON COMPOSITE"
-                   :price  "€ 480"
-                   :photos ["/img/products/4.png"
-                            "/img/products/1.png"
-                            "/img/products/2.png"]}]]])
+   (for [this (db/get-rest-products)]
+     ^{:key (:id this)} [one-part this])])
+
+(defn product-details [product-name]
+  [:div "Product data: " (db/get-product product-name) product-name])
 
 (defn shop []
-  [:div {:class [(x-class css-utils/page-in-animation) (x-class css-utils/content-width)]}
-   [main-section]
-   [down-arrow]
-   [parts-section]])
+  (let [this-product (:product (db/get-query-params))]
+    [:div {:class [(x-class css-utils/page-in-animation) (x-class css-utils/content-width)]}
+     (if (= "main" this-product)
+       [:<>
+        [main-section]
+        [down-arrow]
+        [parts-section]]
+       [product-details this-product])]))
