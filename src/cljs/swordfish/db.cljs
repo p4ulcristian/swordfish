@@ -4,6 +4,7 @@
 (def db (atom {:accordions []
                :menu       false
                :page       :index
+               :cart       {}
                :products   [;Main Product
                             {:id     "wakizashi"
                              :title  "SWORDFISH WAKIZASHI"
@@ -97,8 +98,8 @@
 
 ;;;Routes
 
-(defn change-page [the-key params]
-  (swap! db assoc :page the-key :query-params params))
+
+
 
 (defn get-page []
   (:page @db))
@@ -124,6 +125,34 @@
   (first (filter #(= the-name (:id %))
                  (:products @db))))
 
+(defn add-to-cart []
+  (swap! db assoc-in [:cart (keyword (str (random-uuid)))]
+         (:current-product @db)))
+
+(defn get-cart-items []
+  (:cart @db))
+
+(defn get-product-quantity []
+  (let [number (-> @db :current-product :quantity)]
+    (if number number 0)))
+
+(defn change-product-quantity [quantity]
+  (swap! db assoc-in [:current-product :quantity] quantity))
+
+(defn dec-product-quantity []
+  (swap! db assoc-in [:current-product :quantity] (max 0 (dec (get-product-quantity)))))
+
+(defn inc-product-quantity []
+  (swap! db assoc-in [:current-product :quantity] (inc (get-product-quantity))))
+
 (defn get-rest-products []
   (vec (rest (:products @db))))
 
+
+(defn set-current-product [params]
+  (swap! db assoc :current-product (get-product (:product params))))
+
+(defn change-page [the-key params]
+  (swap! db assoc :page the-key :query-params params)
+  (if (= the-key :shop)
+    (set-current-product params)))

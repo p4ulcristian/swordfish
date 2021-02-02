@@ -89,7 +89,7 @@
      :font-size       "17px"
      :font-weight     "bold"
      :line-height     "25px"
-     :padding-left    "20px"
+     :padding         "0px 20px"
      :justify-content "center"}
     {:media {(utils/media-width {:max-width (:s utils/size)})
              {:font-size   "14px"
@@ -125,7 +125,7 @@
   (with-meta
     {:display   "flex"
      :flex-wrap "wrap"
-     :padding   "0px 50px"
+     :padding   "50px 50px"
      :color     "white"}
     {:media {(utils/media-width {:max-width (:l utils/size)})
              {:padding "0px 0px"}}}))

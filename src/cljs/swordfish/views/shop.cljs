@@ -13,11 +13,43 @@
   [:div {:class (x-class css/wakizashi-grey-container)}
    [:div {:class (x-class css/wakizashi-grey)}]])
 
+(defn product-details-title [title]
+  [:div {:class (x-class css/product-details-title)} title])
+
 (defn product-title [title]
   [:div {:class (x-class css/product-title)} title])
 
+(defn product-details-type [title]
+  [:div {:class (x-class css/product-details-type)} title])
+
 (defn product-type [title]
   [:div {:class (x-class css/product-type)} title])
+
+
+(defn quantity-input []
+  [:div {:class (x-class css/quantity-group)}
+   [:div {:on-click #(db/dec-product-quantity)
+          :class    (x-class css/quantity-modify)}
+    [:span.fas.fa-minus]]
+   [:div [:input {:class     (x-class css/quantity-input)
+                  :on-change #(db/change-product-quantity (-> % .-target .-value))
+                  :value     (db/get-product-quantity)}]]
+   [:div {:on-click #(db/inc-product-quantity)
+          :class    (x-class css/quantity-modify)}
+    [:span.fas.fa-plus]]])
+
+(defn product-details-price [title]
+  [:div {:class (x-class css/product-details-price)}
+   [:div {:class (x-class css-utils/vertical-align)}
+    [:div title]]
+   [:div [:img {:src "/img/stars.png" :width "130px"}]]])
+
+
+(defn product-details-quantity []
+  [:div {:class (x-class css/product-details-quantity)}
+   [:div {:class (x-class css/quantity-label)} "Quantity"]
+   [quantity-input]])
+
 
 (defn product-price [title]
   [:div {:class (x-class css/product-price)} title])
@@ -34,13 +66,72 @@
                         [product-photo photo])]])
 
 (defn product [{:keys [id title type price photos]}]
-  [:a {:href (str "/shop/" id)
+  [:a {:href  (str "/shop/" id)
        :class (x-class css/product-card (first photos))}
    [:div
     [product-title title]
     [product-type type]
     [product-price price]]
    [product-photos photos]])
+
+(defn product-in-details [{:keys [id title type price photos]}]
+  [:div {:class (x-class css/product-details-card (first photos))}
+   [product-photos photos]])
+
+(defn add-to-cart-button []
+  [:button {:on-click #(db/add-to-cart)
+            :class (x-class css/add-to-cart-button)}
+   "ADD TO CART"])
+
+(defn one-guarantee [icon text]
+  [:div {:class (x-class css-utils/flex)}
+   [:div {:class (x-class css-utils/vertical-align)} icon]
+   [:div {:class (x-class css/guarantee-label)}
+    text]])
+
+(defn guarantees []
+  [:div
+   [one-guarantee [icons/plane (x-class css/icon)] "Free worldwide delivery"]
+   [one-guarantee [icons/shield (x-class css/icon)] "5 Years manufacturer warranty"]
+   [one-guarantee [icons/leg (x-class css/icon)] "All fins custom made for the perfect fit. \nCheck feet size and customization for more details."]
+   [:div [:img {:src "/img/safe-checkout.png" :width "350px"}]]])
+
+(defn product-details-buying [{:keys [title type price]}]
+  [:div {:class (x-class css/product-details-buying)}
+   [product-details-title title]
+   [product-details-type type]
+   [product-details-price price]
+   [product-details-quantity]
+   [add-to-cart-button]
+   [guarantees]])
+
+(defn product-description []
+  [:div {:class (x-class css/buying-description)}
+   [:h1 "SWORDFISH WAKIZASHI"]
+   [:p "This is the area I have to fill with marketing text that makes you want to wear a Swordfish fin so bad you can’t resist hitting that add to cart button. Truth is that if learning about what we created, seeing it in action and in the making didn’t make you feel the urge to grow a sword, swim head on towards your fears, crush them and conquer yourself - than reading this probably won’t either. "]
+   [:p "Swordfish is salvation to you when it comes to fin swimming, that’s clear, but what are you to us? On paper yes, you could be a customer - our accountant will call you one - but to us (Berci and Ananda) you are a fellow soul who believes they can do better, who understands there’s a better way. It sounds super cheesy, I know, but the truth is we want only the best for you, that’s why we didn’t stop development when Swordfish was just a little better than other monofins out there.\n"]
+   [:p "If you aren’t sure whether Swordfish is the right choice for you, go head and check our FAQ to find our recommendation for other manufacturers. "]
+   [:p "Want to try both blades? Head over to our Facts page to see the difference between the two available options. The Swordfish feet section module works with both our Katana and Wakizashi blades, they’re easily interchangeable. You can purchase Katana blades as an addition later, or spend less by getting them both in a bundle now!\n"]
+   [:p "To find out more about Swordfish follow us on YouTube or see our Facts page.And remember, as Berci says; If you only have one breath, use it wisely! Enjoy your dive!"]])
+
+(defn detail-categories []
+  [:div {:class (x-class css/detail-categories)}
+   [:div "DESCRIPTION"]
+   [:div "TECH SPEC"]
+   [:div "FEET SIZE"]
+   [:div "WARRANTY"]
+   [:div "CUSTOMIZATION"]
+   [:div "SHIPPING"]])
+
+(defn product-details [product-name]
+  (let [this-product (db/get-product product-name)]
+    [:div
+     [:div {:class (x-class css/product-details)}
+      [product-in-details this-product]
+      [product-details-buying this-product]]
+     [down-arrow]
+     [detail-categories]
+     [product-description this-product]]))
 
 (defn main-product [product]
   [:div {:class (x-class css/main-product-container)}
@@ -99,12 +190,25 @@
    (for [this (db/get-rest-products)]
      ^{:key (:id this)} [one-part this])])
 
-(defn product-details [product-name]
-  [:div "Product data: " (db/get-product product-name) product-name])
+
+(defn one-cart [{:keys [title type price]}]
+  [:div
+   {:class (x-class css/one-cart)}
+   [:div
+    [:div title]
+    [:div type]]
+   [:div price]])
+
+(defn cart []
+  [:div
+   [:h1 "CART"]
+   (for [[cart-key cart-item] (db/get-cart-items)]
+     ^{:key cart-key} [one-cart cart-item])])
 
 (defn shop []
   (let [this-product (:product (db/get-query-params))]
     [:div {:class [(x-class css-utils/page-in-animation) (x-class css-utils/content-width)]}
+     [cart]
      (if (= "main" this-product)
        [:<>
         [main-section]
