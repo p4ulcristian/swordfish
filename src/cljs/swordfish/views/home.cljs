@@ -19,17 +19,18 @@
    [:div  {:class [(x-class css-utils/font-size "20px")]} "NOW"]])
 
 (defn price-card []
-  [:div {:class (x-class css-home/price-box)}
-   [price-card-price]
-   [:div {:class [(x-class css-utils/vertical-align) (x-class css-utils/padding "10px")]}
-    [shop-now-text]]])
+  [:div {:class (x-class css-home/price-box-container)}
+   [:div {:class (x-class css-home/price-box)}
+    [price-card-price]
+    [:div {:class [(x-class css-utils/vertical-align) (x-class css-utils/padding "10px")]}
+     [shop-now-text]]]])
 
 
 (defn badge [img-url title desc]
   [:div {:class (x-class css-home/one-badge-container)}
    [:div {:class (x-class css-home/one-badge)}
     [:div [:img {:class (x-class css-home/one-badge-image)
-                 :src img-url :width "100"}]]
+                 :src img-url :width "90"}]]
     [:div {:class (x-class css-home/badge-content-container)}
      [:div {:class (x-class css-home/one-badge-title)} title]
      [:div {:class (x-class css-home/one-badge-desc)} desc]]]])
@@ -43,11 +44,13 @@
 
 (defn wakizashi []
   [:div {:class (x-class css-home/wakizashi)}
-   [:img {:src "/img/wakizashi.svg"}]
+   [:div {:class (x-class css-home/wakizashi-img)}
+    [:img {:src "/img/wakizashi.svg"}]]
    [:div {:class (x-class css-home/wakizashi-description)}
     [:p "This is the area I have to fill with marketing text that makes you want to wear a Swordfish fin so bad you
        can’t resist hitting that add to cart button"]]
    [price-card]])
+
 
 (defn contact-description []
   [:div {:class (x-class css-home/contact-description)}
@@ -56,8 +59,8 @@
    [:p "please put your e-mail address below to receive weekly updates!"]])
 
 (defn no-spam-no-nonsense []
-  [:div {:class [(x-class css-home/nospam) (x-class css-utils/flex)]}
-   [:div {:class [(x-class css-utils/padding "0px 30px") (x-class css-utils/vertical-align)]}
+  [:div {:class [(x-class css-home/nospam)]}
+   [:div {:class [(x-class css-home/nospam-logo) (x-class css-utils/vertical-align)]}
     [:img {:width 50 :src "/img/favicon.png"}]]
 
    [:div {:class (x-class css-utils/position "relative")}
@@ -84,7 +87,7 @@
    [no-spam-no-nonsense]
    [contact-description]
    [contact-inputs]
-   [:div {:class (x-class css-utils/margin "60px 0px 180px 0px")}
+   [:div {:class (x-class css-utils/margin "60px 0px 60px 0px")}
     [utils/contact-social-icons]]])
 
 
@@ -92,14 +95,22 @@
   [:img {:src "/img/background-logo.svg"
          :class (x-class css-home/background-logo-left)}])
 
+
+(defn main-section []
+  [:div {:class (x-class css-home/main-section)}
+   [:div {:class (x-class css-home/main-section-img-container)}
+    [:img {:class (x-class css-home/main-section-img)
+           :src "/img/main-product.png"}]]
+   [:div {:class (x-class css-home/wakizashi-container)}
+    [wakizashi]]
+   [down-arrow]
+   [utils/social-icons]])
+
 (defn home-page []
   (fn []
-    [:div {:class [(x-class css-utils/content-width) (x-class css-utils/page-in-animation)]}
-     [:div {:class (x-class css-home/home-container)}
-      [:img {:width "100%" :src "/img/main-product.png"}]
-      [utils/social-icons]
-      [down-arrow]]
-     [wakizashi]
+    [:div {:class [(x-class css-utils/content-width)
+                   (x-class css-utils/page-in-animation)]}
+     [main-section]
      [badges]
      [contact]
      [background-logo-left]]))

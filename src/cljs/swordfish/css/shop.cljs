@@ -1,20 +1,21 @@
 (ns swordfish.css.shop
   (:require
-    [swordfish.css.utils :refer [color] :as utils]))
+    [swordfish.css.utils :refer [color] :as utils]
+    [swordfish.db :as db]))
 
 
 ;parts-section
-
 (defn parts-section []
   (with-meta
-    {:display        "flex"
-     :flex-wrap      "wrap"
-     :padding-bottom "50px"
-     :padding-top    "30px"}
-    {:combinators {[:> :div] {:flex            "0 50%"
-                              :display         "flex"
-                              :justify-content "center"
-                              :margin-bottom   "50px"}}}))
+    {:display         "flex"
+     :flex-wrap       "wrap"
+     :padding-bottom  "50px"
+     :justify-content "center"
+     :padding-top     "30px"}
+    {:combinators {[:> :div] {:flex          "0 50%"
+                              :display       "flex"
+
+                              :margin-bottom "50px"}}}))
 
 ;product-card
 
@@ -37,29 +38,41 @@
    :left     "10px"
    :position "absolute"})
 
-
 (defn product-title []
-  {:color          "grey"
-   :font-family    "'Oswald', sans-serif"
-   :font-size      "16px"
-   :letter-spacing "7px"
-   :line-height    "30px"
-   :padding        "10px 25px 0px 0px"
-   :text-align     "right"})
+  (with-meta
+    {:color          "grey"
+     :font-family    "'Oswald', sans-serif"
+     :font-size      "16px"
+     :letter-spacing "7px"
+     :line-height    "30px"
+     :padding        "10px 25px 0px 0px"
+     :text-align     "right"}
+    {:media {(utils/media-width {:max-width (:s utils/size)})
+             {:font-size      "12px"
+              :letter-spacing "5px"
+              :padding        "10px 10px 0px 0px"}}}))
 
 (defn product-type []
-  {:color       (color :text-color)
-   :font-family "'Oswald', sans-serif"
-   :font-size   "25px"
-   :text-align  "right"
-   :padding     "0px 25px 20px 0px"})
+  (with-meta
+    {:color       (color :text-color)
+     :font-family "'Oswald', sans-serif"
+     :font-size   "25px"
+     :text-align  "right"
+     :padding     "0px 25px 20px 0px"}
+    {:media {(utils/media-width {:max-width (:s utils/size)})
+             {:font-size "15px"
+              :padding   "0px 10px 0px 0px"}}}))
 
 (defn product-price []
-  {:color       (color :text-color)
-   :font-family "'Oswald', sans-serif"
-   :font-size   "40px"
-   :padding     "0px 25px 10px 0px"
-   :text-align  "right"})
+  (with-meta
+    {:color       (color :text-color)
+     :font-family "'Oswald', sans-serif"
+     :font-size   "40px"
+     :padding     "0px 25px 10px 0px"
+     :text-align  "right"}
+    {:media {(utils/media-width {:max-width (:s utils/size)})
+             {:font-size "20px"
+              :padding   "0px 10px 0px 0px"}}}))
 
 ;;main-description
 
@@ -100,35 +113,63 @@
    :border-radius       "25px"
    :display             "flex"
    :flex-direction      "column"
-   :height              "500px"
-   :width               "500px"})
+   :height              (cond
+                          (db/l?) "500px"
+                          (db/m?) "500px"
+                          (db/s?) "500px"
+                          (db/xs?) "300px"
+                          :else "300px")
+   :width               (cond
+                          (db/l?) "500px"
+                          (db/m?) "500px"
+                          (db/s?) "500px"
+                          (db/xs?) "300px"
+                          :else "300px")})
+
+
 
 (defn main-product-container []
-  {:flex-basis "33%"})
+  (if (db/l?)
+    {:flex-basis "33%"}
+    {:flex-basis      "100%"
+     :display         "flex"
+     :justify-content "center"}))
+
 
 (defn main-description []
-  {:display         "flex"
-   :flex-basis      "33%"
-   :flex-direction  "column"
-   :justify-content "space-evenly"
-   :padding         "0px 30px"})
+  (with-meta
+    {:display         "flex"
+     :flex-basis      "33%"
+     :flex-direction  "column"
+     :justify-content "space-evenly"
+     :padding         "0px 30px"}
+    {:media {(utils/media-width {:max-width (:m utils/size)})
+             {:flex-basis "50%"
+              :margin-top "30px"}}}))
 
 (defn main-section []
-  {:display         "flex"
-   :justify-content "center"
-   :margin-top      "100px"
-   :margin-bottom   "50px"})
+  (with-meta
+    {:display         "flex"
+     :justify-content "center"
+     :margin-top      "100px"
+     :margin-bottom   "50px"}
+    {:media {(utils/media-width {:max-width (:m utils/size)})
+             {:flex-wrap "wrap"}}}))
 
 ;;Unordered
 
 (defn spacer []
   {:border-bottom (str "1px solid " (color :highlight-color))
+   :padding       "5px"
    :width         "100%"})
 
 (defn wakizashi-grey-container []
-  {:padding    "40px 20px"
-   :width      "100%"
-   :flex-basis "33%"})
+  (with-meta
+    {:padding    "40px 20px"
+     :width      "100%"
+     :flex-basis "33%"}
+    {:media {(utils/media-width {:max-width (:m utils/size)})
+             {:display "none"}}}))
 
 (defn wakizashi-grey []
   {:background-size     "contain"

@@ -15,24 +15,21 @@
   [:div {:class (x-class css/description)}
    (str  description)])
 
-(defn section-img [img-url]
-  [:div [:div {:class (x-class css/section-img img-url)}]])
+(defn section-img [img-url direction]
+  [:div {:class (x-class css/section-img-container  direction)}
+   [:div {:class (x-class css/section-img img-url)}]])
 
 (defn section-content [title-start title-end description direction]
-  [:div {:class (x-class css/section-content)}
+  [:div {:class (x-class css/section-content direction)}
    [:div
     [title title-start title-end direction]
     [section-description description]]])
 
 (defn section [[title-start title-end] img-url description direction]
   [:section {:class (x-class css/section)}
-   (case direction
-     :left [:<>
-            [section-content title-start title-end description direction]
-            [section-img img-url]]
-     :right [:<>
-             [section-img img-url]
-             [section-content title-start title-end description direction]])])
+   [:<>
+    [section-content title-start title-end description direction]
+    [section-img img-url direction]]])
 
 (defn sections []
   [:div {:class (x-class css/fact)}

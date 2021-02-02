@@ -11,17 +11,16 @@
    [:img {:src "/img/down-arrow.png"}]])
 
 
-(defn contact-social-icon [url]
+(defn contact-social-icon [url href]
   [:div {:class (x-class css-home/contact-social-icon)}
-   [:a {:href ""}
+   [:a {:href href}
     [:img {:src url}]]])
-
 
 (defn contact-social-icons []
   [:div {:class (x-class css-home/contact-social-icons)}
-   [contact-social-icon "/img/icons/youtube.svg"]
-   [contact-social-icon "/img/icons/facebook.svg"]
-   [contact-social-icon "/img/icons/instagram.svg"]])
+   [contact-social-icon "/img/icons/youtube.svg" swordfish.setup/youtube-link]
+   [contact-social-icon "/img/icons/facebook.svg" swordfish.setup/facebook-link]
+   [contact-social-icon "/img/icons/instagram.svg" swordfish.setup/instagram-link]])
 
 (defn social-icon [class url]
   [:div

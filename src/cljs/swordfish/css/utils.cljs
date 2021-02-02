@@ -8,8 +8,17 @@
          :highlight-color "#2B83C7"
          :price-color     "#2B83C7"}))
 
+(def size
+  {:xs "450px"
+   :s  "600px"
+   :m  "850px"
+   :l  "1100px"})
+
 (defn color [the-key]
   (get @color-scheme the-key))
+
+(defn media-width [width-map]
+  (merge {:screen :only} width-map))
 
 (defn min-width-media [width style]
   {:media {{:screen :only :min-width width} style}})
@@ -80,12 +89,16 @@
 
 
 (defn mobile-menu []
-  (with-meta {:padding "0px 20px"
-              :color   "white"
+  (with-meta {:padding   "0px 20px"
+              :cursor    "pointer"
+              :color     "white"
               :font-size "25px"}
-             (min-width-media "850px" {:display "none"})))
+             (min-width-media (:m size) {:display "none"})))
 
 (defn footer-sections []
   (with-meta {:display   "flex"
               :flex-wrap "wrap"}
-             (max-width-media "1000px" {:justify-content "center"})))
+             (max-width-media
+               (:l size)
+               {:justify-content "center"})))
+

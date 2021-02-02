@@ -130,12 +130,19 @@ a:hover, a:active {
 
 
 /* ... */
-div, p, span {
+div, span {
   /* user-select not supperted properly in all browsers */
   -ms-user-select: none;
   -moz-user-select: none;
   -webkit-user-select: none;
   user-select: none }
+
+  p {
+    /* user-select not supperted properly in all browsers */
+    -ms-user-select: text;
+    -moz-user-select: text;
+    -webkit-user-select: text;
+    user-select: text }
 
 
 /******* Normalize *******/

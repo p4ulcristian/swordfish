@@ -80,10 +80,10 @@
 
 (defn subscribe-button []
   (merge utils/oswald
-         {:background  (color :highlight-color)
-          :color       "white"
-          :cursor      "pointer"
-          :padding     "10px 30px"}))
+         {:background (color :highlight-color)
+          :color      "white"
+          :cursor     "pointer"
+          :padding    "10px 30px"}))
 
 
 

@@ -38,7 +38,7 @@
 
 
 (defn left []
-  [:div
+  [:div  {:class (x-class css/accordion-column)}
    [accordion "Which monofin should I choose? "
     "Great question! First we set clear objectives and
     committed to reaching our goal no matter what! We
@@ -68,7 +68,7 @@
       be us."]])
 
 (defn right []
-  [:div
+  [:div {:class (x-class css/accordion-column)}
    [accordion "What do some of the words mean in the first answer?"
     "Great question! First we set clear objectives and
     committed to reaching our goal no matter what! We

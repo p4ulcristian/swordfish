@@ -1,6 +1,7 @@
 {:lein         true
  :source-paths ["src"]
  :builds       {:app {:target     :browser
+                      :pseudo-names true
                       :output-dir "resources/public/js"
                       :asset-path "/js"
                       :modules    {:app {:entries [swordfish.core]}}

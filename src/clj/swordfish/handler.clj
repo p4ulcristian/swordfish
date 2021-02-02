@@ -10,7 +10,7 @@
 
 (defn head []
   [:head
-   [:title "Swordfish"]
+   [:title "Swordfishfins"]
    [:link {:rel "icon" :type "image/png" :href "/img/favicon.png"}]
    [:link {:href "https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&display=swap"
            :rel "stylesheet"}]
@@ -24,7 +24,6 @@
    (include-css "/css/normalize.css")
    (include-css (if (env :dev) "/css/site.css" "/css/site.min.css"))])
 
-
 (defn loading-page []
   (html5
    (head)
@@ -33,7 +32,6 @@
     (include-js "https://kit.fontawesome.com/f4781bfeea.js")
     (include-js "/js/app.js")
     [:script "swordfish.core.init_BANG_()"]]))
-
 
 (defn index-handler
   [_request]

@@ -8,6 +8,7 @@
     ;[reitit.frontend :as reitit]
     [swordfish.css.home :as css-home]
     [swordfish.css.utils :as css-utils]
+    [swordfish.css.utils :as css-utils]
     [swordfish.db :as db]
     [swordfish.router :refer [path-for]]
     [swordfish.setup]
@@ -49,11 +50,11 @@
 
 (defn footer-links []
   [:div {:class [(x-class css-home/footer-links)]}
-   [footer-link "PRIVACY POLICY" ""]
-   [footer-link "SHIPPING & HANDLING" ""]
-   [footer-link "RETURN POLICY" ""]
-   [footer-link "FAQ" ""]
-   [footer-link "MY PERSONAL DATA" ""]])
+   [footer-link "PRIVACY POLICY" "/privacy-policy"]
+   [footer-link "SHIPPING & HANDLING" "/shipping-handling"]
+   [footer-link "RETURN POLICY" "/return-policy"]
+   [footer-link "FAQ" "/faq"]])
+
 
 (defn social-icon [class url]
   [:div {:class (x-class css-utils/padding "5px 10px")}
@@ -74,12 +75,14 @@
     [copyright-social-icons]]])
 
 (defn footer-paying []
-  [:div {:class [(x-class css-utils/padding "10px 0px")]}
+  [:div {:class [(x-class css-home/footer-paying-container)]}
+
    [:img {:src "/img/paying.png" :class (x-class css-home/footer-paying)}]])
 
 (defn footer []
-  [:footer {:class [ (x-class css-home/footer)]}
-   [:div {:class [(x-class css-utils/footer-sections) (x-class css-utils/content-width)]}
+  [:footer {:class [(x-class css-home/footer)]}
+   [:div {:class [(x-class css-utils/footer-sections)
+                  (x-class css-utils/content-width)]}
     [footer-paying]
     [footer-links]
     [copyright]]])
@@ -92,6 +95,10 @@
 
 ;; -------------------------
 ;; Page mounting component
+
+
+
+
 
 (defn current-page []
   (fn []
