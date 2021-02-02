@@ -150,7 +150,8 @@
 
 
 (defn set-current-product [params]
-  (swap! db assoc :current-product (get-product (:product params))))
+  (swap! db assoc :current-product
+         (assoc (get-product (:product params)) :quantity 1)))
 
 (defn change-page [the-key params]
   (swap! db assoc :page the-key :query-params params)

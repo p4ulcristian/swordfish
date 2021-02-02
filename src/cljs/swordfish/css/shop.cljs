@@ -20,8 +20,6 @@
 
 ;product-card
 
-(defn product-photos-container []
-  {:flex-grow 1})
 
 (defn product-photo-container []
   (with-meta {:border        (str "1px solid " (color :text-color))
@@ -200,7 +198,7 @@
                             (db/s?) "500px"
                             (db/xs?) "300px"
                             :else "300px")}
-    {:pseudo {:hover {:transform "translate(0px, 10px)"}}}))
+    {:pseudo {:hover {:transform "scale(1.05)"}}}))
 
 (defn product-details-card [url]
   {:background-image    (str "url(" url ")")
@@ -218,7 +216,43 @@
 
 (defn one-cart []
   (merge utils/roboto
+         {:color         "white"
+          :display       "flex"
+          :margin-bottom "10px"}))
+
+
+(defn one-cart-price []
+  (merge utils/roboto
+         {:flex-grow  1
+          :text-align "right"}))
+
+(defn one-cart-title []
+  (merge utils/roboto
+         {:width     "300px"
+          :font-size "14x"}))
+
+(defn cart-title []
+  (merge utils/oswald
          {:color "white"}))
+
+(defn cart-total []
+  {:display   "flex"
+   :color     "white"
+   :font-size "24px"})
+
+(defn cart-total-price []
+  {:text-align "right"
+   :flex-grow  1})
+
+(defn cart []
+  (merge utils/oswald
+         {:padding   "0px 20px"
+          :margin    "auto"
+          :max-width "500px"}))
+
+(defn cart-content []
+  {:border-bottom  (str "1px solid " (color :text-color))
+   :padding-bottom "10px"})
 
 (defn add-to-cart-button []
   (merge utils/oswald

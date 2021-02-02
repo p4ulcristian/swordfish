@@ -54,29 +54,38 @@
 (defn product-price [title]
   [:div {:class (x-class css/product-price)} title])
 
-(defn product-photo [photo]
-  [:div {:class (x-class css/product-photo-container)}
+(defn product-photo [photo image-atom]
+  [:div {:on-click #(do
+                      (.stopPropagation %)
+                      (reset! image-atom photo))
+
+
+
+         :class (x-class css/product-photo-container)}
    [:img {:class (x-class css/product-photo)
           :src   photo}]])
 
-(defn product-photos [photos]
-  [:div {:class (x-class css/product-photos-container)}
-   [:div {:class (x-class css/product-photos)}
-    (for [photo photos] ^{:key (random-uuid)}
-                        [product-photo photo])]])
+(defn product-photos [photos image-atom]
+  [:div {:class (x-class css/product-photos)}
+   (for [photo photos] ^{:key (random-uuid)}
+                       [product-photo photo image-atom])])
 
 (defn product [{:keys [id title type price photos]}]
-  [:a {:href  (str "/shop/" id)
-       :class (x-class css/product-card (first photos))}
-   [:div
-    [product-title title]
-    [product-type type]
-    [product-price price]]
-   [product-photos photos]])
+  (let [image-atom (atom (first photos))]
+    (fn [{:keys [id title type price photos]}]
+      [:div
+       [:a {:href  (str "/shop/" id)
+            :class (x-class css/product-card @image-atom)}
+        [product-title title]
+        [product-type type]
+        [product-price price]]
+       [product-photos photos image-atom]])))
 
 (defn product-in-details [{:keys [id title type price photos]}]
-  [:div {:class (x-class css/product-details-card (first photos))}
-   [product-photos photos]])
+  (let [image-atom (atom (first photos))]
+    (fn [{:keys [id title type price photos]}]
+      [:div {:class (x-class css/product-details-card (first photos))}
+       [product-photos photos image-atom]])))
 
 (defn add-to-cart-button []
   [:button {:on-click #(db/add-to-cart)
@@ -191,19 +200,27 @@
      ^{:key (:id this)} [one-part this])])
 
 
-(defn one-cart [{:keys [title type price]}]
+(defn one-cart [{:keys [title type price quantity]}]
   [:div
-   {:class (x-class css/one-cart)}
-   [:div
-    [:div title]
-    [:div type]]
-   [:div price]])
+   {:class [ (x-class css/one-cart)]}
+   [:div  {:class [ (x-class css/one-cart-title)]}
+    title " - " type]
+   [:div {:class [ (x-class css/one-cart-price)]}
+    price " * " quantity]])
 
 (defn cart []
-  [:div
-   [:h1 "CART"]
-   (for [[cart-key cart-item] (db/get-cart-items)]
-     ^{:key cart-key} [one-cart cart-item])])
+  [:div {:class (x-class css/cart)}
+   [:h1 {:class (x-class css/cart-title)}
+        "CART"]
+   [:div {:class (x-class css/cart-content)}
+    (for [[cart-key cart-item] (db/get-cart-items)]
+      ^{:key cart-key} [one-cart cart-item])]
+   [:div {:class (x-class css/cart-total)}
+      [:div "Total: "]
+      [:div {:class (x-class css/cart-total-price)}
+       "420 euro"]]
+   [:div {:class (x-class css/add-to-cart-button)}
+    "SHIPPING AND PAYMENT"]])
 
 (defn shop []
   (let [this-product (:product (db/get-query-params))]
