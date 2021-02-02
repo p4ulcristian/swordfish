@@ -125,9 +125,14 @@
   (first (filter #(= the-name (:id %))
                  (:products @db))))
 
+
+
+
+
 (defn add-to-cart []
-  (swap! db assoc-in [:cart (keyword (str (random-uuid)))]
+  (swap! db assoc-in [:cart (:id (:current-product @db))]
          (:current-product @db)))
+
 
 (defn get-cart-items []
   (:cart @db))

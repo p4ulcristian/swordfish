@@ -209,18 +209,20 @@
     price " * " quantity]])
 
 (defn cart []
-  [:div {:class (x-class css/cart)}
-   [:h1 {:class (x-class css/cart-title)}
-        "CART"]
-   [:div {:class (x-class css/cart-content)}
-    (for [[cart-key cart-item] (db/get-cart-items)]
-      ^{:key cart-key} [one-cart cart-item])]
-   [:div {:class (x-class css/cart-total)}
-      [:div "Total: "]
-      [:div {:class (x-class css/cart-total-price)}
-       "420 euro"]]
-   [:div {:class (x-class css/add-to-cart-button)}
-    "SHIPPING AND PAYMENT"]])
+  (if
+    (not (empty? (db/get-cart-items)))
+    [:div {:class (x-class css/cart)}
+     [:h1 {:class (x-class css/cart-title)}
+          "CART"]
+     [:div {:class (x-class css/cart-content)}
+      (for [[cart-key cart-item] (db/get-cart-items)]
+        ^{:key cart-key} [one-cart cart-item])]
+     [:div {:class (x-class css/cart-total)}
+        [:div "Total: "]
+        [:div {:class (x-class css/cart-total-price)}
+         "420 euro"]]
+     [:div {:class (x-class css/add-to-cart-button)}
+      "SHIPPING AND PAYMENT"]]))
 
 (defn shop []
   (let [this-product (:product (db/get-query-params))]
