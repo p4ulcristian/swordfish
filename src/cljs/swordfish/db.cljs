@@ -3,7 +3,7 @@
 
 (def db (atom {:accordions []
                :menu       false
-               :page       :home}))
+               :page       :index}))
 
 (defn conj-set-vec [list item]
   (vec (set (conj list item))))
@@ -67,6 +67,7 @@
   (:page @db))
 
 (defn this-page? [page]
+  (.log js/console "hey" page)
   (if (= page (get-page)) true false))
 
 ;menu

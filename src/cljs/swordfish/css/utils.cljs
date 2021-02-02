@@ -66,13 +66,22 @@
 (defn flex []
   {:display "flex"})
 
+;animations
+
 (defkeyframes pulse-animation
               [:from {:opacity 0}]
               [:to {:opacity 1}])
 
-;; In garden, if you use a single vector [arg1 arg1] you get a comma separated
-;; string, if you add a second vector is gets space separated
+(defkeyframes menu-animation
+              [:from {:transform "translateY(-100%)"}]
+              [:to {:transform "translateY(0)"}])
+
 (defn page-in-animation
   []
   {:animation  [[pulse-animation "1s"]]
    :transition "all 1s ease-out"})
+
+(defn menu-animation-style
+  []
+  {:animation  [[menu-animation "0.4s"]]
+   :transition "all 1s ease-in"})

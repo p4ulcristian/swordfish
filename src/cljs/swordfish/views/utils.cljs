@@ -11,7 +11,7 @@
 
 (defn contact-social-icon [url href]
   [:div {:class (x-class css-home/contact-social-icon)}
-   [:a {:href href}
+   [:a {:href href :target "_blank"}
     [:img {:src url}]]])
 
 (defn contact-social-icons []

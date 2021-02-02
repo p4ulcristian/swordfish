@@ -27,64 +27,6 @@
    :position        "absolute"})
 ;:transform       "rotate(10deg)"})
 
-(defn logo-container []
-  (if (db/m?)
-    {:align-items "center"
-     :display     "flex"
-     :z-index     "2"}
-    {:position  "absolute"
-     :left      "100%"
-     :transform "translateX(-100%)"}))
-
-
-(defn logo []
-  (if (db/s?)
-    {:width   "280px"
-     :padding "0px 30px"}
-    {:width   "200px"
-     :padding "5px 20px"}))
-
-
-
-(defn navbar []
-  {:padding-top "30px"
-   :display     "flex"
-   :height      "70px"})
-
-
-
-
-(defn menu []
-  {:display         "flex"
-   :height          "100%"
-   :flex-basis      "500px"
-   :z-index         "2"
-   :font-family     "'Oswald', sans-serif"
-   :font-weight     "600"
-   :font-size       "20px"
-   :justify-content "space-around"})
-
-(defn menu-item-active [active?]
-  (if active? (color :highlight-color)
-              (color :text-color)))
-
-(defn menu-item [active?]
-  (with-meta {:text-decoration "none"}
-             {:pseudo {:active  {:color "red"}
-                       :link    {:color (color :text-color)}
-                       :visited {:color (color :text-color)}
-                       :hover   {:color  (color :highlight-color)
-                                 :cursor "pointer"}}}))
-
-(defn nav-line []
-  {:height        "50%"
-   :flex-grow     1
-   :z-index       "2"
-   :border-bottom (str "1px solid " (color :text-color))})
-
-
-
-
 ;wakizashi-price-card
 (defn price []
   {:display          "flex"

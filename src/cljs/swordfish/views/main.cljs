@@ -13,38 +13,58 @@
     [swordfish.views.utils :as utils]))
 
 
+(defn background-logo []
+  [:img {:src   "/img/background-logo.svg"
+         :class (x-class css-home/background-logo)}])
+
+(def links [["HOME" :index]
+            ["SHOP" :shop]
+            ["FACT" :fact]
+            ["FAQ" :faq]
+            ["CONTACT" :contact]])
+
+
 (defn menu-link [name the-key]
   [:div {:class (x-class css-utils/vertical-align)}
    [:a {:data-selected "true"
-        :class         (x-class css-home/menu-item (db/this-page? the-key))
+        :class         (x-class css-main/menu-item (db/this-page? the-key))
         :href          (path-for the-key)} name]])
 
+(defn mobile-menu-link [name the-key]
+  [:div {:class (x-class css-main/mobile-menu-item (db/this-page? the-key))}
+   [:a {:data-selected "true"
+        :on-click #(db/toggle-menu)
+        :href          (path-for the-key)} name]])
 
 (defn mobile-menu []
-  [:div {:class (x-class css-main/mobile-menu-button)}])
+  [:div {:class (x-class css-main/mobile-menu)}
+   (for [link links]
+     ^{:key (second link)} [mobile-menu-link (first link) (second link)])
+   [background-logo]])
 
 (defn mobile-menu-button []
   [:button {:class    (x-class css-main/mobile-menu-button)
             :on-click #(db/toggle-menu)} [:span {:class "fas fa-bars"}]])
 
 (defn menu []
-  [:div {:class (x-class css-home/menu)}
-   [menu-link "HOME" :index]
-   [menu-link "SHOP" :shop]
-   [menu-link "FACT" :fact]
-   [menu-link "FAQ" :faq]
-   [menu-link "CONTACT" :contact]])
+  [:div {:class (x-class css-main/menu)}
+   (for [link links]
+     ^{:key (second link)} [menu-link (first link) (second link)])])
 
 (defn navbar []
   [:header
-   [:div {:class [(x-class css-utils/content-width) (x-class css-home/navbar)]}
+   [:div {:class [(x-class css-utils/content-width) (x-class css-main/navbar)]}
     (if (not (db/m?))
-      [mobile-menu])
-    [:a {:href "/" :class (x-class css-home/logo-container)}
-     [:img {:class (x-class css-home/logo) :src "/img/logo.svg"}]]
+      [:<>
+       [mobile-menu-button]
+       (if (db/menu-open?)
+         [mobile-menu]
+         nil)])
+    [:a {:href "/" :class (x-class css-main/logo-container)}
+     [:img {:class (x-class css-main/logo) :src "/img/logo.svg"}]]
     (if (db/m?)
       [:<>
-       [:div {:class (x-class css-home/nav-line)}]
+       [:div {:class (x-class css-main/nav-line)}]
        [menu]])]])
 
 (defn footer-link [title href]
@@ -91,9 +111,7 @@
     [footer-links]
     [copyright]]])
 
-(defn background-logo []
-  [:img {:src   "/img/background-logo.svg"
-         :class (x-class css-home/background-logo)}])
+
 
 ;; -------------------------
 ;; Page mounting component
