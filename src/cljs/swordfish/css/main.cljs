@@ -58,23 +58,24 @@
 
 
 (defn mobile-menu-item [active?]
-  {:flex-grow  1
-   :color      (if active? (color :highlight-color) (color :text-color))
-   :margin     "10px"
-   :width      "100%"
-   :text-align "center"})
+  {:flex-grow   1
+   :color       (if active? (color :highlight-color) (color :text-color))
+   :margin      "10px"
+   :width       "100%"
+   :font-weight "bold"
+   :text-align  "center"})
 
 (defn mobile-menu []
   (merge
     (utils/menu-animation-style)
-    {:position       "absolute"
-     :overflow       "hidden"
-     :width          "100%"
-     :top            "80px"
-     :display        "flex"
-     :flex-direction "column"
-     :z-index        4
-     :background     "rgba(0,0,0,0.9)"
+    {:position         "absolute"
+     :overflow         "hidden"
+     :width            "100%"
+     :top              "80px"
+     :display          "flex"
+     :flex-direction   "column"
+     :z-index          4
+     :background       "rgba(0,0,0,0.9)"
      :background-image "linear-gradient(147deg, #000000 0%, #434343 74%)"}))
 
 (defn mobile-menu-button []
@@ -138,8 +139,10 @@
               (color :text-color)))
 
 (defn menu-item [active?]
-  (with-meta {:text-decoration "none"}
+  (with-meta {:text-decoration "none"
+              :color (color :text-color)}
              {:pseudo {:link    {:color (color :text-color)}
+                       :active  {:color (color :text-color)}
                        :visited {:color (if active? (color :highlight-color)
                                                     (color :text-color))}
                        :hover   {:color  (color :highlight-color)
