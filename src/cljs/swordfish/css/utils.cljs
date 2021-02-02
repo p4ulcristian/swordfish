@@ -63,17 +63,8 @@
   {:max-width "1200px" :margin "auto"
    :position  "relative"})
 
-(defn for-footer-design []
-  {:display        "flex"
-   :min-height     "100vh"
-   :flex-direction "column-reverse"})
-
-(defn for-page-design []
-  {:flex-grow 1})
-
 (defn flex []
   {:display "flex"})
-
 
 (defkeyframes pulse-animation
               [:from {:opacity 0}]
@@ -85,20 +76,3 @@
   []
   {:animation  [[pulse-animation "1s"]]
    :transition "all 1s ease-out"})
-
-
-
-(defn mobile-menu []
-  (with-meta {:padding   "0px 20px"
-              :cursor    "pointer"
-              :color     "white"
-              :font-size "25px"}
-             (min-width-media (:m size) {:display "none"})))
-
-(defn footer-sections []
-  (with-meta {:display   "flex"
-              :flex-wrap "wrap"}
-             (max-width-media
-               (:l size)
-               {:justify-content "center"})))
-

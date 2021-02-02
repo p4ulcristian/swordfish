@@ -1,10 +1,10 @@
 (ns swordfish.views.home
   (:require
-    [accountant.core :as accountant]
     [herb.core :refer [<class <id] :rename {<class x-class <id x-id}]
     [reagent.core :as reagent :refer [atom]]
     [swordfish.css.home :as css-home]
     [swordfish.css.utils :as css-utils]
+    [swordfish.db :as db]
     [swordfish.setup]
     [swordfish.views.utils :refer [down-arrow]]
     [swordfish.views.utils :as utils]))
@@ -16,7 +16,7 @@
 (defn shop-now-text []
   [:div
    [:div {:class [(x-class css-utils/font-size "18px")]} "SHOP"]
-   [:div  {:class [(x-class css-utils/font-size "20px")]} "NOW"]])
+   [:div {:class [(x-class css-utils/font-size "20px")]} "NOW"]])
 
 (defn price-card []
   [:div {:class (x-class css-home/price-box-container)}
@@ -30,7 +30,7 @@
   [:div {:class (x-class css-home/one-badge-container)}
    [:div {:class (x-class css-home/one-badge)}
     [:div [:img {:class (x-class css-home/one-badge-image)
-                 :src img-url :width "90"}]]
+                 :src   img-url :width "90"}]]
     [:div {:class (x-class css-home/badge-content-container)}
      [:div {:class (x-class css-home/one-badge-title)} title]
      [:div {:class (x-class css-home/one-badge-desc)} desc]]]])
@@ -74,9 +74,9 @@
 
 (defn contact-inputs []
   [:div {:class (x-class css-home/contact-inputs)}
-   [:input {:class [(x-class css-home/contact-input) (x-class css-home/contact-input-name)]
+   [:input {:class       [(x-class css-home/contact-input) (x-class css-home/contact-input-name)]
             :placeholder "Name"}]
-   [:input {:class [(x-class css-home/contact-input) (x-class css-home/contact-input-name)]
+   [:input {:class       [(x-class css-home/contact-input) (x-class css-home/contact-input-name)]
             :placeholder "Your email"}]
    [subscribe-button]])
 
@@ -92,19 +92,21 @@
 
 
 (defn background-logo-left []
-  [:img {:src "/img/background-logo.svg"
+  [:img {:src   "/img/background-logo.svg"
          :class (x-class css-home/background-logo-left)}])
 
 
 (defn main-section []
   [:div {:class (x-class css-home/main-section)}
    [:div {:class (x-class css-home/main-section-img-container)}
-    [:img {:class (x-class css-home/main-section-img)
-           :src "/img/main-product.png"}]]
+    [:img {:src "/img/main-product.png"}]]
    [:div {:class (x-class css-home/wakizashi-container)}
     [wakizashi]]
    [down-arrow]
-   [utils/social-icons]])
+   (if (db/s?)
+     [utils/social-icons]
+     [:div {:class (x-class css-utils/margin "10px 0px")}
+      [utils/contact-social-icons]])])
 
 (defn home-page []
   (fn []

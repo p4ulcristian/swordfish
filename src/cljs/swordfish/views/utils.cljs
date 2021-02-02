@@ -2,14 +2,12 @@
   (:require
     [herb.core :refer [<class <id] :rename {<class x-class <id x-id}]
     [swordfish.css.home :as css-home]
+    [swordfish.db :as db]
     [swordfish.setup]))
-
-
 
 (defn down-arrow []
   [:div {:class (x-class css-home/down-arrow)}
    [:img {:src "/img/down-arrow.png"}]])
-
 
 (defn contact-social-icon [url href]
   [:div {:class (x-class css-home/contact-social-icon)}

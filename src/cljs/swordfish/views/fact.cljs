@@ -13,10 +13,10 @@
 
 (defn section-description [description]
   [:div {:class (x-class css/description)}
-   (str  description)])
+   (str description)])
 
 (defn section-img [img-url direction]
-  [:div {:class (x-class css/section-img-container  direction)}
+  [:div {:class (x-class css/section-img-container direction)}
    [:div {:class (x-class css/section-img img-url)}]])
 
 (defn section-content [title-start title-end description direction]
@@ -75,11 +75,11 @@
 (defn youtube-embed []
   [:div {:class (x-class css/youtube-embed)}
    [:iframe
-    {:width "560"
-     :height "315"
-     :src "https://www.youtube.com/embed/hC2pI9R2AME"
-     :frame-border "0"
-     :allow "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+    {:width             "560"
+     :height            "315"
+     :src               "https://www.youtube.com/embed/hC2pI9R2AME"
+     :frame-border      "0"
+     :allow             "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
      :allow-full-screen true}]])
 
 (defn fact []

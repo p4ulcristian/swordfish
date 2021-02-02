@@ -26,7 +26,6 @@
    [:img {:class (x-class css/product-photo)
           :src   photo}]])
 
-
 (defn product-photos [photos]
   [:div {:class (x-class css/product-photos-container)}
    [:div {:class (x-class css/product-photos)}

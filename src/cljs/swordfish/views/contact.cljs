@@ -24,7 +24,7 @@
 
 (defn subscribe-button []
   [:div {:class (x-class css/subscribe-button-container)}
-   [:button {:class (x-class css/subscribe-button)
+   [:button {:class    (x-class css/subscribe-button)
              :on-click #()}
     "SUBSCRIBE"]])
 
@@ -33,8 +33,8 @@
    [:div {:class (x-class css/form-content)}
     [:div {:class (x-class css/form-top)}
      [with-label "Name" [:input {:class (x-class css/input)}]]
-     [with-label "Email"  [:input  {:class (x-class css/input)}]]]
-    [with-label "Message" [:textarea  {:class (x-class css/message)}]]]])
+     [with-label "Email" [:input {:class (x-class css/input)}]]]
+    [with-label "Message" [:textarea {:class (x-class css/message)}]]]])
 
 (defn info []
   [:div

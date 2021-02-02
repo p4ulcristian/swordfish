@@ -15,15 +15,14 @@
    [:div "FREQUENTLY ASKED QUESTIONS"]])
 
 (defn icon [the-key]
-  [:button {:class (x-class css/icon-container)
+  [:button {:class    (x-class css/icon-container)
             :on-click #(db/toggle-accordion the-key)}
    [:span {:class (x-class css/icon (db/open-accordion? the-key))}]])
-
 
 (defn accordion-title [title]
   [:div {:class (x-class css/accordion-title)}
    [:div {:class (x-class css/accordion-title-text)}
-    [:div  title]]
+    [:div title]]
    [icon title]])
 
 (defn accordion-description [description]
@@ -38,7 +37,7 @@
 
 
 (defn left []
-  [:div  {:class (x-class css/accordion-column)}
+  [:div {:class (x-class css/accordion-column)}
    [accordion "Which monofin should I choose? "
     "Great question! First we set clear objectives and
     committed to reaching our goal no matter what! We
@@ -102,9 +101,6 @@
    [left]
    [right]])
 
-
-
-
 (defn contact-buttons []
   [:div {:class (x-class css/have-questions-button-container)}
    [:div [:a {:class (x-class css/contact-button)} "Connect via " [:b " e-mail"]]]
@@ -121,7 +117,7 @@
    [contact-buttons]])
 
 (defn faq []
-  [:div  {:class [(x-class css-utils/page-in-animation) (x-class css-utils/content-width)]}
+  [:div {:class [(x-class css-utils/page-in-animation) (x-class css-utils/content-width)]}
    [title]
    [accordions]
    [have-questions?]])
