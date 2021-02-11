@@ -10,7 +10,8 @@
     [swordfish.views.utils :as utils]))
 
 (defn price-card-price []
-  [:div {:class [(x-class css-utils/font-size "50px") (x-class css-utils/padding "10px 0px")]}
+  [:a {:href "/shop/wakizashi"
+       :class [(x-class css-utils/font-size "50px") (x-class css-utils/padding "10px 0px")]}
    "€950"])
 
 (defn shop-now-text []
@@ -74,11 +75,12 @@
 
 (defn contact-inputs []
   [:div {:class (x-class css-home/contact-inputs)}
-   [:input {:class       [(x-class css-home/contact-input) (x-class css-home/contact-input-name)]
-            :placeholder "Name"}]
-   [:input {:class       [(x-class css-home/contact-input) (x-class css-home/contact-input-name)]
-            :placeholder "Your email"}]
-   [subscribe-button]])
+   [:div {:class (x-class css-home/contact-inputs-container)}
+    [:div [:input {:class       [(x-class css-home/contact-input)]
+                   :placeholder "Name"}]]
+    [:div [:input {:class       [(x-class css-home/contact-input)]
+                   :placeholder "Your email"}]]
+    [subscribe-button]]])
 
 
 

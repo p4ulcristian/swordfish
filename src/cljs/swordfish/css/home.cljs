@@ -95,7 +95,24 @@
    :display         "flex"
    :justify-content "center"
    :font-size       "25px"
+   :color           (color :text-color-two)
    :margin-bottom   "30px"})
+
+(defn social-icon-circle []
+  (with-meta
+    {:border-color    (color :text-color-two)
+     :border-radius   "50%"
+     :border-style    "solid"
+     :border-width    "1px"
+     :display         "flex"
+     :flex-direction  "column"
+     :justify-content "center"
+     :align-items     "center"
+     :height          "50px"
+     :width           "50px"}
+    {:combinators {[:> :span] {:color (color :text-color-two)}}}))
+
+
 
 
 (defn social-icon-href []
@@ -163,7 +180,7 @@
    :margin-bottom "20px"
    :font-family   "'Oswald', sans-serif"
    :font-size     "20px"
-   :color         (color :text-color)})
+   :color         (color :text-color-two)})
 
 (defn one-badge-desc []
   {:color       (color :highlight-color)
@@ -204,7 +221,7 @@
    :justify-content "center"})
 
 (defn newsletter-text []
-  (with-meta {:color       "white"
+  (with-meta {:color       (color :text-color-two)
               :width       "fit-content"
               :position    "absolute"
               :left        "0"
@@ -248,46 +265,47 @@
     {:media {(utils/media-width {:max-width (:m utils/size)})
              {:flex-basis "100%"}}}))
 
+(defn contact-inputs-container []
+  {:border-radius "5px"
+   :background    "rgba(255, 255, 255, .05)"
+   :width         "350px"})
+
+
 (defn contact-inputs []
   (with-meta
     {:display         "flex"
      :justify-content "center"}
+
     {:media {(utils/media-width {:max-width (:s utils/size)})
              {:flex-wrap "wrap"}}}))
 
 (defn contact-input-name []
   {})
 
+
+
 (defn contact-input []
   (with-meta
-    {:background    (color :wall-color)
-     :border        "1px solid lightgrey"
-     :border-radius "3px"
-     :color         "lightgrey"
-     :margin-left   "10px"
-     :font-family   "'Roboto', sans-serif"
-     :padding       "10px"
-     :z-index       "1"}
+    {
+     :color       "lightgrey"
+     :font-family "'Roboto', sans-serif"
+     :padding     "10px"}
+
     (utils/max-width-media (:s utils/size)
                            {:flex-basis    "90%"
-                            :margin-left   "0px"
                             :margin-bottom "20px"})))
-
-(defn contact-input-email []
-  {:flex-basis "500px"
-   :color      "lightgrey"})
 
 
 (defn subscribe-button []
   (with-meta
-    {:font-family "'Oswald', sans-serif"
-     :color       "white"
-     :transform   "translateX(-2px)"
-     :position    "relative"
-     :z-index     "0"
-     :padding     "10px 20px"
-     :border      (str "1px solid " (color :highlight-color))
-     :background  (color :highlight-color)}
+    {:border-bottom-right-radius "5px"
+     :border-bottom-left-radius  "5px"
+     :font-family                "'Oswald', sans-serif"
+     :color                      "white"
+     :position                   "relative"
+     :padding                    "10px 20px"
+     :background                 (color :highlight-color)
+     :width                      "100%"}
     (utils/max-width-media (:s utils/size)
                            {:flex-basis    "90%"
                             :margin-bottom "20px"

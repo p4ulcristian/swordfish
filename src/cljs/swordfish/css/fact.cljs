@@ -35,12 +35,13 @@
           :padding "20px"}))
 
 (defn title-start []
-  {:margin-left "10px"})
+  {:color       "#FCFCFC"
+   :margin-left "10px"})
 
 (defn title-end []
-  (merge utils/stroked-word
-         {:margin-left  "5px"
-          :margin-right "15px"}))
+  {:color        "#FCFCFC"
+   :margin-left  "5px"
+   :margin-right "15px"})
 
 
 (defn title [direction]

@@ -2,10 +2,11 @@
   (:require
     [herb.core :refer [<class <id] :rename {<class x-class <id x-id}]
     [reagent.core :as reagent :refer [atom]]
-    [swordfish.css.utils :as css-utils]
     [swordfish.css.shop :as css]
+    [swordfish.css.utils :as css-utils]
     [swordfish.db :as db]
     [swordfish.views.icons :as icons]
+    [swordfish.views.shipping :as shipping]
     [swordfish.views.utils :refer [down-arrow]]))
 
 
@@ -42,7 +43,8 @@
   [:div {:class (x-class css/product-details-price)}
    [:div {:class (x-class css-utils/vertical-align)}
     [:div title]]
-   [:div [:img {:src "/img/stars.png" :width "130px"}]]])
+   [:div  {:class (x-class css/stars)}
+    [:img {:src "/img/stars.png" :width "130px"}]]])
 
 
 (defn product-details-quantity []
@@ -102,8 +104,8 @@
   [:div
    [one-guarantee [icons/plane (x-class css/icon)] "Free worldwide delivery"]
    [one-guarantee [icons/shield (x-class css/icon)] "5 Years manufacturer warranty"]
-   [one-guarantee [icons/leg (x-class css/icon)] "All fins custom made for the perfect fit. \nCheck feet size and customization for more details."]
-   [:div [:img {:src "/img/safe-checkout.png" :width "350px"}]]])
+   [one-guarantee [icons/leg (x-class css/icon)] "All fins custom made for the perfect fit. \nCheck feet size and customization for more details."]])
+   ;[:div [:img {:src "/img/safe-checkout.png" :width "350px"}]]])
 
 (defn product-details-buying [{:keys [title type price]}]
   [:div {:class (x-class css/product-details-buying)}
@@ -206,9 +208,9 @@
    [:div  {:class [ (x-class css/one-cart-title)]}
     title " - " type]
    [:div {:class [ (x-class css/one-cart-price)]}
-    price " * " quantity]])
+    price " x " quantity]])
 
-(defn cart []
+(defn cart [shipping-form?]
   (if
     (not (empty? (db/get-cart-items)))
     [:div {:class (x-class css/cart)}
@@ -221,16 +223,21 @@
         [:div "Total: "]
         [:div {:class (x-class css/cart-total-price)}
          "420 euro"]]
-     [:div {:class (x-class css/add-to-cart-button)}
+     [:button {:on-click #(reset! shipping-form? true)
+               :class (x-class css/shipping-button)}
       "SHIPPING AND PAYMENT"]]))
 
 (defn shop []
-  (let [this-product (:product (db/get-query-params))]
-    [:div {:class [(x-class css-utils/page-in-animation) (x-class css-utils/content-width)]}
-     [cart]
-     (if (= "main" this-product)
-       [:<>
-        [main-section]
-        [down-arrow]
-        [parts-section]]
-       [product-details this-product])]))
+  (let [shipping-form? (atom false)
+        this-product (:product (db/get-query-params))]
+    (fn []
+      [:div {:class [(x-class css-utils/page-in-animation) (x-class css-utils/content-width)]}
+       [cart shipping-form?]
+       (if @shipping-form?
+         [shipping/shipping]
+         (if (= "main" this-product)
+           [:<>
+            [main-section]
+            [down-arrow]
+            [parts-section]]
+           [product-details this-product]))])))

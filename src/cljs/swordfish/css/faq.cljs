@@ -8,11 +8,8 @@
   {:background  (color :highlight-color)
    :color       "white"
    :padding     "10px 30px"
-   :height      "100px"
    :cursor      "pointer"
    :margin-left "10px"})
-
-
 
 (defn have-questions-button-container []
   (with-meta
@@ -42,18 +39,17 @@
          {:display "flex"}))
 
 (defn have-questions-ask-us []
-  {:display "flex"})
+  {:display "flex"
+   :color   (color :text-color-two)})
 
 (defn have-questions? []
   (merge
     utils/oswald
     {:border-bottom "1px solid white"
-     :margin-bottom "100px"
-     :padding-top   "150px"
      :display       "flex"
      :flex-wrap     "wrap"
-     :margin        "0px 20px"
-     :padding       "20px"}))
+     :margin        "0px 20px 150px 20px"
+     :padding       "150px 20px 20px 20px"}))
 
 ;accordion classes
 
@@ -61,9 +57,10 @@
   {:background      "#39394D"
    :border-radius   "5px"
    :display         "flex"
+   :flex-shrink     0
    :justify-content "center"
    :align-items     "center"
-   :height          "55px"
+   :height          "85px"
    :width           "55px"})
 
 (defn icon [open?]
@@ -83,7 +80,8 @@
 
 (defn accordion-title-text []
   (with-meta
-    {:display         "flex"
+    {:color           (color :text-color-two)
+     :display         "flex"
      :flex-direction  "column"
      :flex-grow       1
      :font-size       "17px"
@@ -136,7 +134,7 @@
 
 (defn title []
   (merge utils/oswald
-         {:color       "white"
+         {:color       (color :text-color-two)
           :font-size   "30px"
           :font-weight "bold"
           :line-height "40px"

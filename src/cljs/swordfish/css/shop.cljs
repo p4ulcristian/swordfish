@@ -22,7 +22,7 @@
 
 
 (defn product-photo-container []
-  (with-meta {:border        (str "1px solid " (color :text-color))
+  (with-meta {:border        (str "1px solid " "#555")
               :border-radius "12px"
               :margin-left   "15px"}
              {:pseudo {:hover {:cursor "pointer"}}}))
@@ -52,7 +52,7 @@
                     :padding        "10px 10px 0px 0px"}))))
 
 (defn product-type []
-  (let [style {:color       (color :text-color)
+  (let [style {:color       (color :text-color-two)
                :font-family "'Oswald', sans-serif"
                :font-size   "25px"
                :text-align  "right"
@@ -63,7 +63,7 @@
                     :padding   "0px 10px 0px 0px"}))))
 
 (defn product-price []
-  (let [style {:color       (color :text-color)
+  (let [style {:color       (color :text-color-two)
                :font-family "'Oswald', sans-serif"
                :font-size   "40px"
                :padding     "0px 25px 10px 0px"
@@ -88,7 +88,7 @@
                     :padding        "10px 10px 0px 0px"}))))
 
 (defn product-details-type []
-  (let [style {:color       (color :text-color)
+  (let [style {:color       (color :text-color-two)
                :font-family "'Oswald', sans-serif"
                :font-size   "25px"
                :text-align  "left"
@@ -99,7 +99,7 @@
                     :padding   "0px 10px 0px 0px"}))))
 
 (defn product-details-price []
-  (let [style {:color       (color :text-color)
+  (let [style {:color       (color :text-color-two)
                :font-family "'Oswald', sans-serif"
                :display     "flex"
                :font-size   "35px"
@@ -111,14 +111,16 @@
                     :padding   "0px 10px 0px 0px"}))))
 
 (defn quantity-input []
-  {:border     (str "1px solid " (color :text-color))
-   :height     "50px"
-   :width      "50px"
-   :text-align "center"
-   :color      (color :text-color)})
+  {:border-left  (str "1px solid" (color :text-color-two))
+   :border-right (str "1px solid" (color :text-color-two))
+   :height       "50px"
+   :width        "50px"
+   :text-align   "center"
+
+   :color        (color :text-color-two)})
 
 (defn quantity-modify []
-  {:border          (str "1px solid " (color :text-color))
+  {
    :cursor          "pointer"
    :height          "50px"
    :width           "50px"
@@ -126,17 +128,18 @@
    :flex-direction  "column"
    :justify-content "center"
    :text-align      "center"
-   :color           (color :text-color)})
+   :color           (color :text-color-two)})
 
 (defn quantity-group []
   {:display        "flex"
+   :border         (str "1px solid " (color :text-color-two))
    :flex-direction "flex-end"})
 
 (defn quantity-label []
   {:flex-grow       1
    :font-size       "26px"
    :display         "flex"
-   :color           (color :text-color)
+   :color           (color :text-color-two)
    :flex-direction  "column"
    :justify-content "center"})
 
@@ -183,7 +186,6 @@
      :border-radius       "25px"
      :cursor              "pointer"
      :display             "flex"
-     :margin              "auto"
      :flex-direction      "column"
      :height              (cond
                             (db/l?) "500px"
@@ -247,12 +249,13 @@
 (defn cart []
   (merge utils/oswald
          {:padding   "0px 20px"
-          :margin    "auto"
+          :margin    "80px auto"
           :max-width "500px"}))
 
 (defn cart-content []
   {:border-bottom  (str "1px solid " (color :text-color))
-   :padding-bottom "10px"})
+   :padding-bottom "10px"
+   :margin-bottom  "10px"})
 
 (defn add-to-cart-button []
   (merge utils/oswald
@@ -265,10 +268,23 @@
           :justify-content "center"
           :display         "flex"}))
 
+(defn shipping-button []
+  (merge
+    (add-to-cart-button)
+    {:background "#25c075"}))
+
+
+
 (defn guarantee-label []
   (merge utils/roboto
          {:color   (color :text-color)
           :padding "10px 10px"}))
+
+(defn stars []
+  (with-meta
+    {:transform "translateY(-5px)"}
+
+    {:combinators {[:> :img] {:width "110px"}}}))
 
 (defn buying-description []
   (with-meta (merge utils/roboto
@@ -276,12 +292,13 @@
                      :padding       "10px 50px"
                      :width         "100%"
                      :margin-bottom "50px"})
-             {:combinators {[:> :p] {:margin    "10px"
-                                     :font-size (if (not (db/xs?)) "20px" "14px")}}}))
+             {:combinators {[:> :h1] {:color (color :text-color-two)}
+                            [:> :p]  {:margin    "10px"
+                                      :font-size (if (not (db/xs?)) "20px" "14px")}}}))
 
 (defn detail-categories []
   (with-meta (merge utils/oswald
-                    {:color           (color :text-color)
+                    {:color           (color :text-color-two)
                      :padding         "10px 50px"
                      :width           "100%"
                      :display         "flex"
@@ -365,3 +382,21 @@
    :background-image    "url(/img/wakizashi-grey.png)"
    :height              "100%"
    :width               "100%"})
+
+(defn shipping-fields-container []
+  {:max-width "500px"
+   :padding   "0px 20px"
+   :margin    "auto"})
+
+(defn shipping-fields []
+  (with-meta
+    {:display         "flex"
+     :justify-content "center"
+     :width           "100%"
+     :flex-direction  "row"
+     :flex-wrap       "wrap"}
+    {:combinators {[:> :div] {:flex            "0 50%"
+                              :display         "flex"
+                              :justify-content "center"
+                              :margin-bottom "30px"}}}))
+

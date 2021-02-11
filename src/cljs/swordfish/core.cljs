@@ -8,7 +8,6 @@
     [swordfish.db :as db]
     [swordfish.router :refer [router page-for]]
     [swordfish.views.main :as main]
-    [swordfish.css.utils :as css]
     [accountant.core :as accountant]))
 
 ;; -------------------------
@@ -20,6 +19,7 @@
 (defn init! []
   (clerk/initialize!)
   (db/init-viewport-listener)
+  (db/set-body-scroll-state "sf-document-element" "overflow-y" "scroll")
   (accountant/configure-navigation!
     {:nav-handler
      (fn [path]

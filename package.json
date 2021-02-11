@@ -3,6 +3,8 @@
     "shadow-cljs": "^2.10.14"
   },
   "dependencies": {
+    "@material-ui/core": "^4.11.3",
+    "@material-ui/lab": "^4.0.0-alpha.57",
     "react": "^16.13.0",
     "react-dom": "^16.13.0"
   }

@@ -4,9 +4,8 @@
     [reagent.core :as reagent :refer [atom]]
     [swordfish.css.contact :as css]
     [swordfish.css.utils :as css-utils]
+    [swordfish.db :as db]
     [swordfish.views.utils :as utils]))
-
-
 
 (defn questions? []
   [:div {:class (x-class css/questions?)}
@@ -32,9 +31,12 @@
   [:div {:class (x-class css/form)}
    [:div {:class (x-class css/form-content)}
     [:div {:class (x-class css/form-top)}
-     [with-label "Name" [:input {:class (x-class css/input)}]]
-     [with-label "Email" [:input {:class (x-class css/input)}]]]
-    [with-label "Message" [:textarea {:class (x-class css/message)}]]]])
+     [with-label "Name" [:input {:on-change #(db/edit-db [:contact-form :name] (-> % .-target .-value))
+                                 :class (x-class css/input)}]]
+     [with-label "Email" [:input {:on-change #(db/edit-db [:contact-form :email] (-> % .-target .-value))
+                                  :class (x-class css/input)}]]]
+    [with-label "Message" [:textarea {:on-change #(db/edit-db [:contact-form :message] (-> % .-target .-value))
+                                      :class (x-class css/message)}]]]])
 
 (defn info []
   [:div

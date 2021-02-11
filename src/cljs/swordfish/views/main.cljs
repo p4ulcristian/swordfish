@@ -23,24 +23,26 @@
             ["FAQ" :faq]
             ["CONTACT" :contact]])
 
-
 (defn menu-link [name the-key params]
   [:div {:class (x-class css-utils/vertical-align)}
    [:a {:data-selected "true"
         :class         (x-class css-main/menu-item (db/this-page? the-key))
         :href          (path-for the-key {:product "main"})} name]])
-
 (defn mobile-menu-link [name the-key]
   [:div {:class (x-class css-main/mobile-menu-item (db/this-page? the-key))}
    [:a {:data-selected "true"
-        :on-click #(db/toggle-menu)
+        :on-click      #(db/toggle-menu)
         :href          (path-for the-key {:product "main"})} name]])
 
+
 (defn mobile-menu []
-  [:div {:class (x-class css-main/mobile-menu)}
-   (for [link links]
-     ^{:key (second link)} [mobile-menu-link (first link) (second link)])
-   [background-logo]])
+  [:div  {:class [(x-class css-main/mobile-menu)
+                  (if (db/menu-open?) (x-class css-main/mobile-menu-opened))]}
+   [:div {:class (x-class css-main/mobile-menu-overlay)}]
+   [:div {:class (x-class css-main/mobile-menu-content)}
+    (for [link links]
+      ^{:key (second link)} [mobile-menu-link (first link) (second link)])
+    [background-logo]]])
 
 (defn mobile-menu-button []
   [:button {:class    (x-class css-main/mobile-menu-button)
@@ -56,10 +58,7 @@
    [:div {:class [(x-class css-utils/content-width) (x-class css-main/navbar)]}
     (if (not (db/m?))
       [:<>
-       [mobile-menu-button]
-       (if (db/menu-open?)
-         [mobile-menu]
-         nil)])
+       [mobile-menu-button]])
     [:a {:href "/" :class (x-class css-main/logo-container)}
      [:img {:class (x-class css-main/logo) :src "/img/logo.svg"}]]
     (if (db/m?)
@@ -111,8 +110,6 @@
     [footer-links]
     [copyright]]])
 
-
-
 ;; -------------------------
 ;; Page mounting component
 
@@ -125,5 +122,7 @@
         [footer]
         [:div {:class (x-class css-main/for-page-design)}
          [navbar]
-         [page]]]])))
+         [page]]]
+       [mobile-menu]])))
+
 ;[background-logo]]]])))

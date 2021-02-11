@@ -5,6 +5,8 @@
 (def color-scheme
   (atom {:wall-color      "#181819"
          :text-color      "#A6A2A2"
+         :text-color-two  "#C8C8C8"
+         :muted-white     "#FCFCFC"
          :highlight-color "#2B83C7"
          :price-color     "#2B83C7"}))
 

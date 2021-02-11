@@ -10,7 +10,7 @@
 
 (defn head []
   [:head
-   [:title "Swordfishfins"]
+   [:title "Swordfish Fins"]
    [:link {:rel "icon" :type "image/png" :href "/img/favicon.png"}]
    [:link {:href "https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&display=swap"
            :rel  "stylesheet"}]
@@ -26,8 +26,12 @@
 
 (defn loading-page []
   (html5
+    {:id    "sf-document-element"
+     :style "overflow-y: hidden"}
     (head)
-    [:body {:class "body-container" :style "background: #181819;"}
+    [:body {:id    "sf-body-container"
+            :class "body-container"
+            :style "background: #181819;"}
      mount-target
      (include-js "https://kit.fontawesome.com/f4781bfeea.js")
      (include-js "/js/app.js")

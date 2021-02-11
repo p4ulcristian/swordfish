@@ -8,15 +8,15 @@
     {:padding "10px 0px"}
     (utils/max-width-media
       (:l utils/size)
-      {:flex-basis      "100%"
-       :order           2
-       :display         "flex"
-       :justify-content "center"})))
+      {:display         "flex"
+       :flex-basis      "100%"
+       :justify-content "center"
+       :order           2})))
 
 (defn footer-paying []
   {:background ""
-   :padding    "10px"
-   :height     "25px"})
+   :height     "25px"
+   :padding    "10px"})
 
 (defn footer []
   (merge utils/roboto
@@ -27,16 +27,18 @@
 (defn footer-link []
   (with-meta
     {:flex-basis "content"
-     :text-align "center"}
+     :text-align "center"
+     :line-height "46px"
+     :font-size "12px"}
     {:pseudo {:hover {:color (color :highlight-color)}}}))
 
 (defn footer-links []
   (with-meta
-    {:padding         "0px 0px 0px 0px"
-     :display         "flex"
-     :flex-wrap       "wrap"
+    {:display         "flex"
      :flex-grow       1
-     :justify-content "flex-start"}
+     :flex-wrap       "wrap"
+     :justify-content "flex-start"
+     :padding         "0px 0px 0px 0px"}
     (utils/max-width-media
       (:l utils/size)
       {:flex-basis      "100%"
@@ -49,41 +51,66 @@
 
 (defn copyright []
   (with-meta {:display         "flex"
-              :margin-right    "10px"
-              :justify-content "flex-end"}
+              :justify-content "flex-end"
+              :margin-right    "10px"}
              (utils/max-width-media (:l utils/size) {:order           0
                                                      :flex-basis      "100%"
                                                      :padding         "10px"
                                                      :justify-content "center"})))
 
-
 (defn mobile-menu-item [active?]
-  {:flex-grow   1
-   :color       (if active? (color :highlight-color) (color :text-color))
-   :margin      "10px"
-   :width       "100%"
-   :font-weight "bold"
-   :text-align  "center"})
+  {:align-content   "center"
+   :color           (if active? (color :highlight-color) (color :text-color))
+   :display         "flex"
+   :flex-direction  "column"
+   :flex-grow       1
+   :font-weight     "bold"
+   :height          "30px"
+   :justify-content "center"
+   :margin          "10px"
+   :text-align      "center"
+   :width           "100%"})
+
+(defn mobile-menu-overlay []
+  {:background-color "rgba(0,0,0,.85)"
+   :height           "100%"
+   :left             0
+   :position         "absolute"
+   :top              0
+   :width            "100%"})
+
+(defn mobile-menu-content []
+  (merge utils/oswald
+         {:align-items     "center"
+          :color           "white"
+          :display         "flex"
+          :flex-direction  "column"
+          :height          "100%"
+          :justify-content "center"
+          :left            0
+          :position        "absolute"
+          :top             0
+          :width           "100%"}))
+
 
 (defn mobile-menu []
-  (merge
-    (utils/menu-animation-style)
-    {:position         "absolute"
-     :overflow         "hidden"
-     :width            "100%"
-     :top              "80px"
-     :display          "flex"
-     :flex-direction   "column"
-     :z-index          4
-     :background       "rgba(0,0,0,0.9)"
-     :background-image "linear-gradient(147deg, #000000 0%, #434343 74%)"}))
+  {:height     "100vh"
+   :left       0
+   :position   "fixed"
+   :top        0
+   :transform  "translateY(-100%)"
+   :transition "0.2s ease-in-out"
+   :width      "100%"})
+
+(defn mobile-menu-opened []
+  {:transform "translateY(0%)"})
 
 (defn mobile-menu-button []
-  {:padding   "0px 20px"
-   :z-index   5
+  {:color     "white"
    :cursor    "pointer"
-   :color     "white"
-   :font-size "25px"})
+   :font-size "25px"
+   :padding   "0px 20px"
+   :z-index   5})
 
 (defn footer-sections [l?]
   (if l?
@@ -93,8 +120,8 @@
 
 (defn for-footer-design []
   {:display        "flex"
-   :min-height     "100vh"
-   :flex-direction "column-reverse"})
+   :flex-direction "column-reverse"
+   :min-height     "100vh"})
 
 (defn for-page-design []
   {:flex-grow 1})
@@ -105,53 +132,51 @@
     {:align-items "center"
      :display     "flex"
      :z-index     "2"}
-    {:position  "absolute"
-     :left      "100%"
+    {:left      "100%"
+     :position  "absolute"
      :transform "translateX(-100%)"}))
 
 
 (defn logo []
   (if (db/s?)
-    {:width   "280px"
-     :padding "0px 30px"}
-    {:width   "200px"
-     :padding "5px 20px"}))
-
-
+    {:padding "0px 30px"
+     :width   "280px"}
+    {:padding "5px 20px"
+     :width   "200px"}))
 
 (defn navbar []
-  {:padding-top "30px"
-   :display     "flex"
-   :height      "70px"})
+  {:display     "flex"
+   :height      "70px"
+   :padding-top "30px"})
 
 (defn menu []
   {:display         "flex"
-   :height          "100%"
    :flex-basis      "500px"
-   :z-index         "2"
    :font-family     "'Oswald', sans-serif"
-   :font-weight     "600"
    :font-size       "20px"
-   :justify-content "space-around"})
+   :font-weight     "600"
+   :height          "100%"
+   :justify-content "space-around"
+   :z-index         "2"})
 
 (defn menu-item-active [active?]
   (if active? (color :highlight-color)
-              (color :text-color)))
+              (color :text-color-two)))
 
 (defn menu-item [active?]
   (with-meta {:text-decoration "none"
-              :color (color :text-color)}
-             {:pseudo {:link    {:color (color :text-color)}
-                       :active  {:color (color :text-color)}
+              :color           {:color (color :text-color-two)}}
+             {:pseudo {:link    {:color (color :text-color-two)}
+                       :active  {:color (color :text-color-two)}
                        :visited {:color (if active? (color :highlight-color)
                                                     (color :text-color))}
                        :hover   {:color  (color :highlight-color)
                                  :cursor "pointer"}}}))
 
 (defn nav-line []
-  {:height        "50%"
+  {:border-bottom (str "1px solid " (color :text-color))
    :flex-grow     1
-   :z-index       "2"
-   :border-bottom (str "1px solid " (color :text-color))})
+   :height        "50%"
+   :z-index       "2"})
 
 

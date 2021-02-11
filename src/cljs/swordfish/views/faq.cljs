@@ -103,8 +103,8 @@
 
 (defn contact-buttons []
   [:div {:class (x-class css/have-questions-button-container)}
-   [:div [:a {:class (x-class css/contact-button)} "Connect via " [:b " e-mail"]]]
-   [:div [:a {:class (x-class css/contact-button)} "Connect via " [:b " Facebook"]]]])
+   [:div {:class (x-class css/contact-button)} [:a "Connect via e-mail"]]
+   [:div {:class (x-class css/contact-button)} [:a "Connect via Facebook"]]])
 
 (defn have-questions-text []
   [:div {:class (x-class css/have-questions-text-container)}
@@ -115,6 +115,7 @@
   [:div {:class (x-class css/have-questions?)}
    [have-questions-text]
    [contact-buttons]])
+
 
 (defn faq []
   [:div {:class [(x-class css-utils/page-in-animation) (x-class css-utils/content-width)]}

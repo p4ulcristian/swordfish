@@ -1,5 +1,6 @@
 (ns swordfish.css.contact
   (:require
+    [swordfish.db :as db]
     [swordfish.css.utils :refer [color] :as utils]))
 
 (defn questions? []
@@ -13,7 +14,7 @@
 
 (defn fill-the-form []
   (merge utils/oswald
-         {:color         "white"
+         {:color         (color :muted-white)
           :font-size     "30px"
           :font-weight   "bold"
           :margin-bottom "70px"
@@ -22,7 +23,7 @@
 (defn label-name []
   (merge utils/roboto
          {:padding "10px 0px"
-          :color   "#A6A2A2"}))
+          :color   (color :text-color-two)}))
 
 (defn input []
   (merge utils/roboto
@@ -54,36 +55,42 @@
   (with-meta
     (merge utils/oswald
            {:color           "white"
-            :font-size       "20px"
-            :line-height     "30px"
             :display         "flex"
-            :justify-content "center"})
+            :font-size       "20px"
+            :justify-content "center"
+            :letter-spacing  "1.2px"
+            :line-height     "30px"})
     {:pseudo {:active  {:color "white"}
               :link    {:color "white"}
               :visited {:color "white"}
-              :hover   {:color  (color :highlight-color)
+              :hover   {:color  "#999"
                         :cursor "pointer"}}}))
 
 (defn form-top []
   (with-meta
     {:display         "flex"
      :justify-content "space-between"
-     :margin-bottom   "10px"}
-    {:combinators {[:> :div] {:flex "0 50%"}}}))
+     :margin-bottom   "10px"
+     :flex-wrap       "wrap"}
+    {:combinators {[:> :div] {:flex (if (not (db/s?))
+                                      "0 100%"
+                                      "0 50%")}}}))
 
 (defn subscribe-button-container []
   (merge utils/oswald
          {:display         "flex"
           :justify-content "center"
-          :margin-top      "40px"
-          :margin-bottom   "100px"}))
+          :margin-bottom   "100px"
+          :margin-top      "40px"}))
+
 
 (defn subscribe-button []
   (merge utils/oswald
          {:background (color :highlight-color)
           :color      "white"
           :cursor     "pointer"
-          :padding    "10px 30px"}))
+          :padding    "10px 0"
+          :width           "250px"}))
 
 
 
