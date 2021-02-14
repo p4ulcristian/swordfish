@@ -1,5 +1,34 @@
 (ns swordfish.db
-  (:require [reagent.core :as reagent :refer [atom]]))
+  (:require [reagent.core :as reagent :refer [atom]]
+            [form-validator.core :as fv]
+            [swordfish.spec :as sc]))
+
+(def spec->msg {::sc/email "Typo? It doesn't look valid."})
+
+(defn ?email-confirm [form name]
+  "Example of validator using multiple inputs values.
+  form - atom returned by form-init
+  name - name of the input which call event"
+  (let [password (get-in @form [:names->value :password])
+        password-repeat (get-in @form [:names->value name])]
+    (when-not (= password password-repeat)
+      [:password-repeat :password-not-equal])))
+
+(swap! fv/conf #(merge % {:atom reagent/atom}))
+(def form
+  (fv/init-form
+    {:names->value      {:email              nil
+                         :email-confirm      nil
+                         :first-name         nil
+                         :last-name          nil
+                         :country            nil
+                         :state              nil
+                         :city               nil
+                         :zip                nil
+                         :phone-number       nil
+                         :phone-country-code nil}
+     :form-spec         ::sc/form
+     :names->validators {}})) ;:email-confirm [?email-confirm]}}))
 
 (def db (atom {:accordions   []
                :menu         false
@@ -45,6 +74,8 @@
                                :photos ["/img/products/4.png"
                                         "/img/products/1.png"
                                         "/img/products/2.png"]}]}))
+
+
 
 (defn conj-set-vec [list item]
   (vec (set (conj list item))))

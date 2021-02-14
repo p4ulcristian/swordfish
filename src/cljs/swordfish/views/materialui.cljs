@@ -276,6 +276,8 @@
 (def tooltip (r/adapt-react-class mat/Tooltip))
 (def dialog (r/adapt-react-class mat/Dialog))
 (def snack-bar (r/adapt-react-class mat/Snackbar))
+(def radio (r/adapt-react-class mat/Radio))
+(def radio-group (r/adapt-react-class mat/RadioGroup))
 (def alert (r/adapt-react-class matlab/Alert))
 (def create-mui-theme mat/createMuiTheme)
 (def slide mat/Slide)
@@ -325,18 +327,23 @@
 ;                                                                   label
 ;                 (sort-by :label country-names))))))
 
+(defn get-from-json [json the-key]
+  (get (js->clj json :keywordize-keys true) the-key))
+
 (defn country-select [the-keys]
   [form-control {:fullWidth true}
    [auto-complete
-    {;:size                  "small"
-     :options               (sort-by :label country-names)
-     :onChange              #(db/edit-db the-keys (.-value (.-target %)))
+    {:options               (sort-by :label country-names)
+     :onChange              (fn [event new-value]
+                              (db/edit-db the-keys (get-from-json new-value :label)))
+     :onInputChange         (fn [event new-value]
+                              (db/edit-db the-keys (get-from-json new-value :label)))
      :renderOption          (fn [option]
                               (let [{:keys [code label phone]} (js->clj option :keywordize-keys true)]
                                 (utils/as-el [:div
                                               [:span {:style {:margin-right "4px"}}
                                                (country-code-to-flag code)]
-                                              label]))) ;" - +" phone])))
+                                              label])))     ;" - +" phone])))
      :autoHighlight         true
      :getOptionLabel        (fn [item] (str (get (js->clj item) "label" "")))
      :filterSelectedOptions true
@@ -346,10 +353,26 @@
                               (set! (.-label params) "Country")
                               (r/create-element mat/TextField params))}]])
 
-
-
-
-
-
-
-
+(defn phone-number [the-keys-number the-keys-code]
+  [:div {:style {:flex "100%"}}
+   [auto-complete
+    {:style                 {:width "200px"}
+     :options               (sort-by :label country-names)
+     :onChange               (fn [event new-value]
+                               (db/edit-db the-keys-code (get-from-json new-value :phone)))
+     :onInputChange          (fn [event new-value]
+                               (db/edit-db the-keys-code (get-from-json new-value :phone)))
+     :renderOption          (fn [option]
+                              (let [{:keys [code label phone]} (js->clj option :keywordize-keys true)]
+                                (utils/as-el [:div
+                                              [:span (country-code-to-flag code)]
+                                              "+" phone])))
+     :autoHighlight         true
+     :getOptionLabel        (fn [item] (str (get (js->clj item) "phone" "")))
+     :filterSelectedOptions true
+     :freeSolo              true
+     :renderInput           (fn [^js params]
+                              (set! (.-variant params) "outlined")
+                              (set! (.-label params) "Country code")
+                              (r/create-element mat/TextField params))}]
+   [text-input "Phone number" the-keys-number]])

@@ -383,20 +383,40 @@
    :height              "100%"
    :width               "100%"})
 
+(defn thanks []
+  (merge utils/oswald
+         {:max-width       "500px"
+          :margin          "auto"
+          :text-align "center"
+          :color "white"
+          :font-size "22px"}))
+
+(defn thanks-email []
+  {:color (color :highlight-color)})
+
+(defn thanks-title []
+  (merge utils/stroked-word
+         {:margin "50px 0"
+          :font-size "50px"}))
+
 (defn shipping-fields-container []
-  {:max-width "500px"
-   :padding   "0px 20px"
-   :margin    "auto"})
+  {:padding "0px 20px"})
+
+
+(defn shipping-and-payment-container []
+  {:max-width     "500px"
+   :margin        "auto"
+   :margin-bottom "150px"})
 
 (defn shipping-fields []
   (with-meta
     {:display         "flex"
-     :justify-content "center"
+     :justify-content "space-between"
      :width           "100%"
      :flex-direction  "row"
      :flex-wrap       "wrap"}
-    {:combinators {[:> :div] {:flex            "0 50%"
+    {:combinators {[:> :div] {:flex            (if (db/s?) "0 47%" "0 100%")
                               :display         "flex"
                               :justify-content "center"
-                              :margin-bottom "30px"}}}))
+                              :margin-bottom   "30px"}}}))
 

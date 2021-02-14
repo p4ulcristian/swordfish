@@ -43,7 +43,7 @@
   [:div {:class (x-class css/product-details-price)}
    [:div {:class (x-class css-utils/vertical-align)}
     [:div title]]
-   [:div  {:class (x-class css/stars)}
+   [:div {:class (x-class css/stars)}
     [:img {:src "/img/stars.png" :width "130px"}]]])
 
 
@@ -63,7 +63,7 @@
 
 
 
-         :class (x-class css/product-photo-container)}
+         :class    (x-class css/product-photo-container)}
    [:img {:class (x-class css/product-photo)
           :src   photo}]])
 
@@ -91,7 +91,7 @@
 
 (defn add-to-cart-button []
   [:button {:on-click #(db/add-to-cart)
-            :class (x-class css/add-to-cart-button)}
+            :class    (x-class css/add-to-cart-button)}
    "ADD TO CART"])
 
 (defn one-guarantee [icon text]
@@ -105,7 +105,7 @@
    [one-guarantee [icons/plane (x-class css/icon)] "Free worldwide delivery"]
    [one-guarantee [icons/shield (x-class css/icon)] "5 Years manufacturer warranty"]
    [one-guarantee [icons/leg (x-class css/icon)] "All fins custom made for the perfect fit. \nCheck feet size and customization for more details."]])
-   ;[:div [:img {:src "/img/safe-checkout.png" :width "350px"}]]])
+;[:div [:img {:src "/img/safe-checkout.png" :width "350px"}]]])
 
 (defn product-details-buying [{:keys [title type price]}]
   [:div {:class (x-class css/product-details-buying)}
@@ -204,40 +204,59 @@
 
 (defn one-cart [{:keys [title type price quantity]}]
   [:div
-   {:class [ (x-class css/one-cart)]}
-   [:div  {:class [ (x-class css/one-cart-title)]}
+   {:class [(x-class css/one-cart)]}
+   [:div {:class [(x-class css/one-cart-title)]}
     title " - " type]
-   [:div {:class [ (x-class css/one-cart-price)]}
+   [:div {:class [(x-class css/one-cart-price)]}
     price " x " quantity]])
 
-(defn cart [shipping-form?]
+(defn cart []
   (if
     (not (empty? (db/get-cart-items)))
     [:div {:class (x-class css/cart)}
+     (if (db/get-in-db [:shipping-form?])
+       [:button {:on-click #(db/edit-db [:shipping-form?] false)
+                 :class    (x-class css/shipping-button)}
+        "BACK TO SHOP"])
      [:h1 {:class (x-class css/cart-title)}
-          "CART"]
+      "CART"]
      [:div {:class (x-class css/cart-content)}
       (for [[cart-key cart-item] (db/get-cart-items)]
         ^{:key cart-key} [one-cart cart-item])]
      [:div {:class (x-class css/cart-total)}
-        [:div "Total: "]
-        [:div {:class (x-class css/cart-total-price)}
-         "420 euro"]]
-     [:button {:on-click #(reset! shipping-form? true)
-               :class (x-class css/shipping-button)}
-      "SHIPPING AND PAYMENT"]]))
+      [:div "Total: "]
+      [:div {:class (x-class css/cart-total-price)}
+       "420 euro"]]
+     (if (not (db/get-in-db [:shipping-form?]))
+       [:button {:on-click #(db/edit-db [:shipping-form?] true)
+                 :class    (x-class css/shipping-button)}
+        "SHIPPING AND PAYMENT"])]))
+
+(defn thanks []
+  [:div {:class (x-class css/thanks)}
+   [:h1 {:class (x-class css/thanks-title)} "Thank you!"]
+   [:div
+    "for choosing us, an email was send to "
+    [:span {:class (x-class css/thanks-email)}
+     (str "'" (db/get-in-db [:shipping-form :email]) "'")]
+    " with the details of your purchase."]
+   [:button {:on-click #(do (set! (.-href (.-location js/window)) "/"))
+             :style    {:margin-top "60px"}
+             :class    (x-class css/add-to-cart-button)}
+    "BACK TO SHOP"]])
 
 (defn shop []
-  (let [shipping-form? (atom false)
-        this-product (:product (db/get-query-params))]
-    (fn []
-      [:div {:class [(x-class css-utils/page-in-animation) (x-class css-utils/content-width)]}
-       [cart shipping-form?]
-       (if @shipping-form?
-         [shipping/shipping]
-         (if (= "main" this-product)
-           [:<>
-            [main-section]
-            [down-arrow]
-            [parts-section]]
-           [product-details this-product]))])))
+  (let [this-product (:product (db/get-query-params))]
+    [:div {:class [(x-class css-utils/page-in-animation) (x-class css-utils/content-width)]}
+     (if (db/get-in-db [:email?])
+       [thanks]
+       [:<>
+        [cart]
+        (if (db/get-in-db [:shipping-form?])
+          [shipping/shipping-and-payment]
+          (if (= "main" this-product)
+            [:<>
+             [main-section]
+             [down-arrow]
+             [parts-section]]
+            [product-details this-product]))])]))

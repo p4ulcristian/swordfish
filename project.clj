@@ -6,8 +6,10 @@
 
   :dependencies [[clj-commons/cljss "1.6.4"]
                  [com.google.javascript/closure-compiler-unshaded "v20190325"]
+                 [com.google.javascript/closure-compiler-unshaded "v20200830"]
                  [herb "0.10.0"]
                  [hiccup "1.0.5"]
+                 [kwladyka/form-validator-cljs "1.2.1"]
                  [metosin/jsonista "0.2.6"]
                  [metosin/reitit "0.5.1"]
                  [org.clojure/clojure "1.10.1"]
@@ -20,7 +22,6 @@
                  [ring-server "0.5.0"]
                  [ring/ring-defaults "0.3.2"]
                  [thheller/shadow-cljs "2.11.17"]
-                 [com.google.javascript/closure-compiler-unshaded "v20200830"]
                  [venantius/accountant "0.2.5" :exclusions [org.clojure/tools.reader]]
                  [yogthos/config "1.1.7"]]
   :plugins [[lein-environ "1.1.0"]
