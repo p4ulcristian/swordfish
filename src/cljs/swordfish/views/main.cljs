@@ -27,7 +27,12 @@
   [:div {:class (x-class css-utils/vertical-align)}
    [:a {:data-selected "true"
         :class         (x-class css-main/menu-item (db/this-page? the-key))
-        :href          (path-for the-key {:product "main"})} name]])
+        :href          (path-for the-key {:product "main"})} name]
+   (if (and
+         (= name "SHOP")
+         (not (empty? (db/get-cart-items))))
+     [:span {:class (x-class css-main/menu-item-badge)}
+      (count (db/get-cart-items))])])
 (defn mobile-menu-link [name the-key]
   [:div {:class (x-class css-main/mobile-menu-item (db/this-page? the-key))}
    [:a {:data-selected "true"

@@ -418,5 +418,5 @@
     {:combinators {[:> :div] {:flex            (if (db/s?) "0 47%" "0 100%")
                               :display         "flex"
                               :justify-content "center"
-                              :margin-bottom   "30px"}}}))
+                              :margin-bottom   "10px"}}}))
 

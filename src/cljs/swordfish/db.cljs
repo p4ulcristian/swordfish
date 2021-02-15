@@ -1,34 +1,85 @@
 (ns swordfish.db
   (:require [reagent.core :as reagent :refer [atom]]
             [form-validator.core :as fv]
-            [swordfish.spec :as sc]))
+            [cljs.spec.alpha :as s]
+            [clojure.test.check.generators :as gen]))
 
-(def spec->msg {::sc/email "Typo? It doesn't look valid."})
+(s/def ::not-empty (fn [a]
+                     (and
+                       (not (= a ""))
+                       (not (= a nil)))))
+
+(s/def ::city ::not-empty)
+(s/def ::country ::not-empty)
+(s/def ::email (s/and ::not-empty string? (partial re-matches #"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,63}$")))
+(s/def ::email-confirm ::not-empty)
+(s/def ::first-name (s/and ::not-empty ::name))
+(s/def ::last-name (s/and ::not-empty ::name))
+(s/def ::name (s/and string? (fn [a] (> 20 (count a)))))
+(s/def ::phone-country-code ::not-empty)
+(s/def ::phone-number (s/and ::not-empty (partial re-matches #"^[0-9]+") (fn [a] (> 12 (count a)))))
+(s/def ::state ::not-empty)
+(s/def ::zip ::not-empty)
+(s/def ::payment ::not-empty)
+
+(s/def ::form (s/keys :req-un
+                      [::city
+                       ::country
+                       ::email
+                       ::email-confirm
+                       ::first-name
+                       ::last-name
+                       ::phone-country-code
+                       ::phone-number
+                       ::state
+                       ::zip
+                       ::payment]))
+
+;This just shows you some possibilities.
+
+;(s/def ::password-not-empty not-empty)
+;(s/def ::password-length #(<= 6 (count %)))
+;(s/def ::password (s/and string? ::password-not-empty ::password-length))
+;
+;(s/def ::checkbox-with-value (s/and ::checked))
+;(s/def ::checkbox-without-value (s/and ::checked))
+;
+;(s/def ::select-one (s/and ::selected #{"green"}))
+;(s/def ::select-multiple (partial some #{"cat"}))
+;
+;(s/def ::radio #{"red"})
 
 (defn ?email-confirm [form name]
   "Example of validator using multiple inputs values.
   form - atom returned by form-init
   name - name of the input which call event"
-  (let [password (get-in @form [:names->value :password])
+  (let [password (get-in @form [:names->value :email])
         password-repeat (get-in @form [:names->value name])]
     (when-not (= password password-repeat)
-      [:password-repeat :password-not-equal])))
+      [:email-confirm ::email-not-equal])))
 
 (swap! fv/conf #(merge % {:atom reagent/atom}))
+
+(def form-spec {::name "Name is too long."
+                ::not-empty "Field is empty"
+                ::email "Email is in wrong format"
+                ::email-not-equal "Confirmed email is different."})
+
 (def form
   (fv/init-form
-    {:names->value      {:email              nil
-                         :email-confirm      nil
-                         :first-name         nil
-                         :last-name          nil
-                         :country            nil
-                         :state              nil
-                         :city               nil
-                         :zip                nil
-                         :phone-number       nil
-                         :phone-country-code nil}
-     :form-spec         ::sc/form
-     :names->validators {}})) ;:email-confirm [?email-confirm]}}))
+    {:names->value      {:first-name ""
+                         :last-name ""
+                         :email ""
+                         :email-confirm ""
+                         :country ""
+                         :city ""
+                         :state ""
+                         :zip ""
+                         :phone-number ""
+                         :phone-country-code ""
+                         :payment ""}
+     :form-spec         ::form
+     :names->validators {:email-confirm [?email-confirm]}}))
 
 (def db (atom {:accordions   []
                :menu         false
@@ -41,7 +92,7 @@
                               {:id     "wakizashi"
                                :title  "SWORDFISH WAKIZASHI"
                                :type   "CARBON FIBRE MONOFIN"
-                               :price  "€ 950"
+                               :price  950
                                :photos ["/img/products/main.png"
                                         "/img/products/1.png"
                                         "/img/products/2.png"]}
@@ -49,28 +100,28 @@
                               {:id     "central-slider"
                                :title  "SWORDFISH"
                                :type   "CENTRAL SLIDER"
-                               :price  "€ 120"
+                               :price  120
                                :photos ["/img/products/1.png"
                                         "/img/products/1.png"
                                         "/img/products/2.png"]}
                               {:id     "brass-axle"
                                :title  "SWORDFISH WAKIZASHI"
                                :type   "REPLACEMENT BRASS AXLE 8X150MM"
-                               :price  "€ 5"
+                               :price  5
                                :photos ["/img/products/2.png"
                                         "/img/products/1.png"
                                         "/img/products/2.png"]}
                               {:id     "carbon-fibre"
                                :title  "SWORDFISH WAKIZASHI"
                                :type   "CARBON FIBRE BLADE SET"
-                               :price  "€ 480"
+                               :price  480
                                :photos ["/img/products/3.png"
                                         "/img/products/1.png"
                                         "/img/products/2.png"]}
                               {:id     "feet"
                                :title  "SWORDFISH FEET SECTION"
                                :type   "POLYURETHANE & CARBON COMPOSITE"
-                               :price  "€ 480"
+                               :price  480
                                :photos ["/img/products/4.png"
                                         "/img/products/1.png"
                                         "/img/products/2.png"]}]}))

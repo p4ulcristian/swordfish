@@ -26,10 +26,10 @@
 
 (defn footer-link []
   (with-meta
-    {:flex-basis "content"
-     :text-align "center"
+    {:flex-basis  "content"
+     :text-align  "center"
      :line-height "46px"
-     :font-size "12px"}
+     :font-size   "12px"}
     {:pseudo {:hover {:color (color :highlight-color)}}}))
 
 (defn footer-links []
@@ -162,6 +162,24 @@
 (defn menu-item-active [active?]
   (if active? (color :highlight-color)
               (color :text-color-two)))
+
+(defn menu-item-badge []
+  {:position        "absolute"
+   :background      "#f02849"
+   :border-radius   "50%"
+   :top             0
+   :right           0
+   :height          "15px"
+   :width           "15px"
+   :color           "white"
+   :font-size       "10px"
+   :display         "flex"
+   :align-content   "center"
+   :justify-content "center"
+   :z-index 1000
+   :transform "translate(80%, 40%)"
+   :line-height "11px"
+   :padding "2px"})
 
 (defn menu-item [active?]
   (with-meta {:text-decoration "none"

@@ -33,7 +33,12 @@
           :class    (x-class css/quantity-modify)}
     [:span.fas.fa-minus]]
    [:div [:input {:class     (x-class css/quantity-input)
+                  :type      "number"
+                  :min-value 1
                   :on-change #(db/change-product-quantity (-> % .-target .-value))
+                  :on-blur #(db/change-product-quantity (if (= "" (-> % .-target .-value))
+                                                          1 (-> % .-target .-value)))
+
                   :value     (db/get-product-quantity)}]]
    [:div {:on-click #(db/inc-product-quantity)
           :class    (x-class css/quantity-modify)}
@@ -208,7 +213,8 @@
    [:div {:class [(x-class css/one-cart-title)]}
     title " - " type]
    [:div {:class [(x-class css/one-cart-price)]}
-    price " x " quantity]])
+    (str "€ " price)
+    " x " quantity]])
 
 (defn cart []
   (if
@@ -226,7 +232,11 @@
      [:div {:class (x-class css/cart-total)}
       [:div "Total: "]
       [:div {:class (x-class css/cart-total-price)}
-       "420 euro"]]
+       (str "€ " (reduce + (map (fn [item]
+                                  (*
+                                    (:price item)
+                                    (:quantity item)))
+                                (map second (db/get-cart-items)))))]]
      (if (not (db/get-in-db [:shipping-form?]))
        [:button {:on-click #(db/edit-db [:shipping-form?] true)
                  :class    (x-class css/shipping-button)}

@@ -3,7 +3,10 @@
             [swordfish.db :as db]
             [swordfish.views.utils :as utils]
             ["@material-ui/core" :as mat]
-            ["@material-ui/lab/" :as matlab]))
+            ["@material-ui/lab/" :as matlab]
+            ["@material-ui/core/locale" :refer (huHU)]))
+
+
 
 (def country-names
   [{:code "AD", :label "Andorra", :phone "376"}
@@ -267,6 +270,7 @@
 (defn text-field [params] [reagent-text-field (assoc-in params [:InputProps :inputComponent] input-component)])
 (def form-control (r/adapt-react-class mat/FormControl))
 (def form-control-label (r/adapt-react-class mat/FormControlLabel))
+(def form-helper-text (r/adapt-react-class mat/FormHelperText))
 (def select (r/adapt-react-class mat/Select))
 (def menu-item (r/adapt-react-class mat/MenuItem))
 (def checkbox (r/adapt-react-class mat/Checkbox))
@@ -303,76 +307,12 @@
     (map-indexed #(let [[value item-title] %2] ^{:key %1} [menu-item {:value value} item-title])
                  options)]])
 
-(defn number-to-string [number]
-  (.fromCodePoint js/String number))
 
-(defn country-code-to-flag [code]
-  (apply str
-         (for [letter (clojure.string/upper-case code)]
-           (number-to-string
-             (+ (.charCodeAt letter 0) 127397)))))
+(def primary-color "#2B83C7")
+(def theme (create-mui-theme (clj->js {:palette
+                                         {:type      "dark"
+                                          :primary   {:main primary-color}
+                                          :secondary {:main "#FF822E"}
+                                          :error     {:main "#f02849"}}})
+                             huHU))
 
-;(defn country-select [title the-keys]
-;  [form-control {:fullWidth true :variant "filled" :size "small"}
-;   [input-label {:id "demo-simple-select-label"} title]
-;   [select {:labelId  "demo-simple-select-label"
-;            :value    (let [val (db/get-in-db the-keys)]
-;                        (if val val ""))
-;            :onChange #(db/edit-db the-keys (.-value (.-target %)))
-;            :label    title))
-;    (map-indexed #(let [{:keys [code label phone]} %2] ^{:key %1} [menu-item {:value label}
-;                                                                   [:span
-;                                                                    {:style {:margin-right "4px"}}
-;                                                                    (country-code-to-flag code)
-;                                                                   label
-;                 (sort-by :label country-names))))))
-
-(defn get-from-json [json the-key]
-  (get (js->clj json :keywordize-keys true) the-key))
-
-(defn country-select [the-keys]
-  [form-control {:fullWidth true}
-   [auto-complete
-    {:options               (sort-by :label country-names)
-     :onChange              (fn [event new-value]
-                              (db/edit-db the-keys (get-from-json new-value :label)))
-     :onInputChange         (fn [event new-value]
-                              (db/edit-db the-keys (get-from-json new-value :label)))
-     :renderOption          (fn [option]
-                              (let [{:keys [code label phone]} (js->clj option :keywordize-keys true)]
-                                (utils/as-el [:div
-                                              [:span {:style {:margin-right "4px"}}
-                                               (country-code-to-flag code)]
-                                              label])))     ;" - +" phone])))
-     :autoHighlight         true
-     :getOptionLabel        (fn [item] (str (get (js->clj item) "label" "")))
-     :filterSelectedOptions true
-     :freeSolo              true
-     :renderInput           (fn [^js params]
-                              (set! (.-variant params) "outlined")
-                              (set! (.-label params) "Country")
-                              (r/create-element mat/TextField params))}]])
-
-(defn phone-number [the-keys-number the-keys-code]
-  [:div {:style {:flex "100%"}}
-   [auto-complete
-    {:style                 {:width "200px"}
-     :options               (sort-by :label country-names)
-     :onChange               (fn [event new-value]
-                               (db/edit-db the-keys-code (get-from-json new-value :phone)))
-     :onInputChange          (fn [event new-value]
-                               (db/edit-db the-keys-code (get-from-json new-value :phone)))
-     :renderOption          (fn [option]
-                              (let [{:keys [code label phone]} (js->clj option :keywordize-keys true)]
-                                (utils/as-el [:div
-                                              [:span (country-code-to-flag code)]
-                                              "+" phone])))
-     :autoHighlight         true
-     :getOptionLabel        (fn [item] (str (get (js->clj item) "phone" "")))
-     :filterSelectedOptions true
-     :freeSolo              true
-     :renderInput           (fn [^js params]
-                              (set! (.-variant params) "outlined")
-                              (set! (.-label params) "Country code")
-                              (r/create-element mat/TextField params))}]
-   [text-input "Phone number" the-keys-number]])
