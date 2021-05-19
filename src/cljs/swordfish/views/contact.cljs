@@ -5,6 +5,7 @@
     [swordfish.css.contact :as css]
     [swordfish.css.utils :as css-utils]
     [swordfish.db :as db]
+    [swordfish.setup]
     [swordfish.views.utils :as utils]))
 
 (defn questions? []
@@ -25,30 +26,31 @@
   [:div {:class (x-class css/subscribe-button-container)}
    [:button {:class    (x-class css/subscribe-button)
              :on-click #()}
-    "SUBSCRIBE"]])
+    "SEND"]])
 
 (defn form []
   [:div {:class (x-class css/form)}
    [:div {:class (x-class css/form-content)}
     [:div {:class (x-class css/form-top)}
      [with-label "Name" [:input {:on-change #(db/edit-db [:contact-form :name] (-> % .-target .-value))
-                                 :class (x-class css/input)}]]
+                                 :class     (x-class css/input)}]]
      [with-label "Email" [:input {:on-change #(db/edit-db [:contact-form :email] (-> % .-target .-value))
-                                  :class (x-class css/input)}]]]
+                                  :class     (x-class css/input)}]]]
     [with-label "Message" [:textarea {:on-change #(db/edit-db [:contact-form :message] (-> % .-target .-value))
-                                      :class (x-class css/message)}]]]])
+                                      :class     (x-class css/message)}]]]])
 
 (defn info []
-  [:div
+  [:div {:class (x-class (fn [] {:margin-bottom "60px"}))}
    [:div {:class (x-class css-utils/margin "30px 0px")}
     [utils/contact-social-icons]]
-   [:div [:a {:class (x-class css/link) :href "tel:+36303119696"} "+36 30 311 9696"]]
-   [:div [:a {:class (x-class css/link) :href "mailto:info@swordfishfins.com"} "info@swordfishfins.com"]]])
+   [:div {:class (x-class css/link)} [:a {:href "tel:+36303119696"} "+36 30 311 9696"]]
+   [:div {:class (x-class css/link)} [:a {:href (str "mailto:" swordfish.setup/email-link)}
+                                      swordfish.setup/email-link]]])
 
 (defn contact []
   [:div {:class (x-class css-utils/page-in-animation)}
    [questions?]
    [fill-the-form]
    [form]
-   [info]
-   [subscribe-button]])
+   [subscribe-button]
+   [info]])

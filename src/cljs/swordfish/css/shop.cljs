@@ -41,7 +41,7 @@
   (let [style {:color          "grey"
                :font-family    "'Oswald', sans-serif"
                :font-size      "16px"
-               :letter-spacing "7px"
+               :letter-spacing "5px"
                :line-height    "30px"
                :padding        "10px 25px 0px 0px"
                :text-align     "right"}]
@@ -77,7 +77,7 @@
   (let [style {:color          "grey"
                :font-family    "'Oswald', sans-serif"
                :font-size      "18px"
-               :letter-spacing "7px"
+               :letter-spacing "5px"
                :line-height    "30px"
                :padding        "10px 25px 0px 0px"
                :text-align     "left"}]
@@ -220,18 +220,32 @@
   (merge utils/roboto
          {:color         "white"
           :display       "flex"
-          :margin-bottom "10px"}))
+          :margin-bottom "10px"
+          :line-height   "22px"}))
+
+(defn one-cart-img []
+  (merge utils/roboto
+         {:height "100px"
+          :width  "100px"}))
 
 
 (defn one-cart-price []
   (merge utils/roboto
-         {:flex-grow  1
-          :text-align "right"}))
+         (utils/vertical-align)
+         {:flex-grow    1
+          :padding-left "10px"
+          :text-align   "right"
+          :white-space  "nowrap"}))
+
+(defn one-cart-close []
+  {:cursor "pointer"})
 
 (defn one-cart-title []
   (merge utils/roboto
-         {:width     "300px"
-          :font-size "14x"}))
+         (utils/vertical-align)
+         {:padding-left "15px"
+          :width        "300px"}))
+
 
 (defn cart-title []
   (merge utils/oswald
@@ -256,6 +270,18 @@
   {:border-bottom  (str "1px solid " (color :text-color))
    :padding-bottom "10px"
    :margin-bottom  "10px"})
+
+(defn back-to-link []
+  (with-meta
+    (merge
+      utils/oswald
+      {:color     (color :highlight-color)
+       :font-size "18px"})
+    {:pseudo {:link    {:color (color :highlight-color)}
+              :active  {:color (color :highlight-color)}
+              :visited {:color (color :highlight-color)}
+              :hover   {:color  (color :highlight-color)
+                        :cursor "pointer"}}}))
 
 (defn add-to-cart-button []
   (merge utils/oswald
@@ -299,14 +325,23 @@
 (defn detail-categories []
   (with-meta (merge utils/oswald
                     {:color           (color :text-color-two)
-                     :padding         "10px 50px"
-                     :width           "100%"
+                     :padding         "10px 0px"
+                     ;:overflow-x      "scroll"
+                     :flex-wrap "wrap"
                      :display         "flex"
-                     :justify-content "space-around"
+                     :justify-content "flex-start"
                      :margin-bottom   "50px"})
              {:pseudo      {:hover {:color {}}}
-              :combinators {[:> :div] {:margin "10px"}}}))
+              :combinators {[:> :div] {:padding      "10px"
+                                       :white-space "nowrap"}}}))
 
+
+(defn detail-categories-container []
+  (with-meta (merge utils/oswald
+                    {:display         "flex"
+                     :flex-direction  "row"
+                     :justify-content "center"})
+             {}))
 
 (defn icon []
   {:margin-left  "10px"
@@ -385,18 +420,18 @@
 
 (defn thanks []
   (merge utils/oswald
-         {:max-width       "500px"
-          :margin          "auto"
+         {:max-width  "500px"
+          :margin     "auto"
           :text-align "center"
-          :color "white"
-          :font-size "22px"}))
+          :color      "white"
+          :font-size  "22px"}))
 
 (defn thanks-email []
   {:color (color :highlight-color)})
 
 (defn thanks-title []
   (merge utils/stroked-word
-         {:margin "50px 0"
+         {:margin    "50px 0"
           :font-size "50px"}))
 
 (defn shipping-fields-container []
@@ -415,7 +450,7 @@
      :width           "100%"
      :flex-direction  "row"
      :flex-wrap       "wrap"}
-    {:combinators {[:> :div] {:flex            (if (db/s?) "0 47%" "0 100%")
+    {:combinators {[:> :div] {:flex            "0 100%"
                               :display         "flex"
                               :justify-content "center"
                               :margin-bottom   "10px"}}}))

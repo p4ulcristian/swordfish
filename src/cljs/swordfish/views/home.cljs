@@ -10,8 +10,7 @@
     [swordfish.views.utils :as utils]))
 
 (defn price-card-price []
-  [:a {:href "/shop/wakizashi"
-       :class [(x-class css-utils/font-size "50px") (x-class css-utils/padding "10px 0px")]}
+  [:div {:class [(x-class css-utils/font-size "50px") (x-class css-utils/padding "10px 0px")]}
    "€950"])
 
 (defn shop-now-text []
@@ -21,10 +20,11 @@
 
 (defn price-card []
   [:div {:class (x-class css-home/price-box-container)}
-   [:div {:class (x-class css-home/price-box)}
-    [price-card-price]
-    [:div {:class [(x-class css-utils/vertical-align) (x-class css-utils/padding "10px")]}
-     [shop-now-text]]]])
+   [:a {:href "/shop/wakizashi"}
+       [:div {:class (x-class css-home/price-box)}
+        [price-card-price]
+        [:div {:class [(x-class css-utils/vertical-align) (x-class css-utils/padding "10px")]}
+         [shop-now-text]]]]])
 
 
 (defn badge [img-url title desc]

@@ -8,16 +8,18 @@
                      (and
                        (not (= a ""))
                        (not (= a nil)))))
-
+(s/def ::only-letters (partial re-matches #"[a-zA-Z ]+"))
+(s/def ::only-numbers (partial re-matches #"[0-9+/]+"))
 (s/def ::city ::not-empty)
 (s/def ::country ::not-empty)
 (s/def ::email (s/and ::not-empty string? (partial re-matches #"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,63}$")))
 (s/def ::email-confirm ::not-empty)
-(s/def ::first-name (s/and ::not-empty ::name))
-(s/def ::last-name (s/and ::not-empty ::name))
+(s/def ::first-name (s/and ::not-empty ::name ::only-letters))
+(s/def ::last-name (s/and ::not-empty ::name ::only-letters))
 (s/def ::name (s/and string? (fn [a] (> 20 (count a)))))
-(s/def ::phone-country-code ::not-empty)
-(s/def ::phone-number (s/and ::not-empty (partial re-matches #"^[0-9]+") (fn [a] (> 12 (count a)))))
+(s/def ::phone-country-code (s/and (partial re-matches #"^[0-9\-\+]+")
+                                   (fn [a] (> 20 (count a))))) ;csak szam es plusz
+(s/def ::phone-number (s/and ::not-empty (partial re-matches #"^[0-9 \-]+") (fn [a] (> 15 (count a)))))
 (s/def ::state ::not-empty)
 (s/def ::zip ::not-empty)
 (s/def ::payment ::not-empty)
@@ -31,7 +33,7 @@
                        ::last-name
                        ::phone-country-code
                        ::phone-number
-                       ::state
+                       ;::state
                        ::zip
                        ::payment]))
 
@@ -60,24 +62,26 @@
 
 (swap! fv/conf #(merge % {:atom reagent/atom}))
 
-(def form-spec {::name "Name is too long."
-                ::not-empty "Field is empty"
-                ::email "Email is in wrong format"
-                ::email-not-equal "Confirmed email is different."})
+(def form-spec {::name               "Name is too long."
+                ::only-letters       "Name should contain only letters."
+                ::not-empty          "Field is empty"
+                ::email              "Email is in wrong format"
+                ::phone-country-code "(+36, 0036)"
+                ::email-not-equal    "Confirmed email is different."})
 
 (def form
   (fv/init-form
-    {:names->value      {:first-name ""
-                         :last-name ""
-                         :email ""
-                         :email-confirm ""
-                         :country ""
-                         :city ""
-                         :state ""
-                         :zip ""
-                         :phone-number ""
+    {:names->value      {:first-name         ""
+                         :last-name          ""
+                         :email              ""
+                         :email-confirm      ""
+                         :country            ""
+                         :city               ""
+                         :state              ""
+                         :zip                ""
+                         :phone-number       ""
                          :phone-country-code ""
-                         :payment ""}
+                         :payment            ""}
      :form-spec         ::form
      :names->validators {:email-confirm [?email-confirm]}}))
 
@@ -234,6 +238,10 @@
 (defn add-to-cart []
   (swap! db assoc-in [:cart (:id (:current-product @db))]
          (:current-product @db)))
+
+(defn delete-from-cart [{:keys [id] :as item}]
+  (swap! db assoc :cart (dissoc (:cart @db) id)))
+
 
 
 (defn get-cart-items []

@@ -271,10 +271,13 @@
    :width         "350px"})
 
 
+
 (defn contact-inputs []
   (with-meta
     {:display         "flex"
-     :justify-content "center"}
+     :padding "0px 10px"
+     :justify-content "center"
+     :margin          "auto"}
 
     {:media {(utils/media-width {:max-width (:s utils/size)})
              {:flex-wrap "wrap"}}}))
@@ -292,8 +295,8 @@
      :padding     "10px"}
 
     (utils/max-width-media (:s utils/size)
-                           {:flex-basis    "90%"
-                            :margin-bottom "20px"})))
+                           {:flex-basis "90%"})))
+;:margin-bottom "20px"})))
 
 
 (defn subscribe-button []
@@ -307,6 +310,6 @@
      :background                 (color :highlight-color)
      :width                      "100%"}
     (utils/max-width-media (:s utils/size)
-                           {:flex-basis    "90%"
-                            :margin-bottom "20px"
-                            :transform     "translateX(0px)"})))
+                           {:flex-basis "90%"
+                            ;:margin-bottom "20px"
+                            :transform  "translateX(0px)"})))

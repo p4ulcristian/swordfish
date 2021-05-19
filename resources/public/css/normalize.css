@@ -84,11 +84,7 @@ button:-moz-focusring,
  * textarea { overflow: auto } */
 
 
-/* Set scrolling to the root element.
- * The scroll-behavior property doesn't work in IE and Safari. 2019.03.10 */
-html {
-  height: 100vh;
-  scroll-behavior: smooth }
+
 
 
 /* 1. All elements inherit the cursor property from the body element.
@@ -166,3 +162,9 @@ input[type=number] {
 
 
 /******* Normalize *******/
+
+
+/*This doesnt belong here, sry*/
+detail-categories::-webkit-scrollbar {
+display:none
+}

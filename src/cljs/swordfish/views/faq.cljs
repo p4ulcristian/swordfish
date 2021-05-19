@@ -4,7 +4,8 @@
     [reagent.core :as reagent :refer [atom]]
     [swordfish.css.faq :as css]
     [swordfish.css.utils :as css-utils]
-    [swordfish.db :as db]))
+    [swordfish.db :as db]
+    [swordfish.setup]))
 
 
 (defn title []
@@ -103,8 +104,10 @@
 
 (defn contact-buttons []
   [:div {:class (x-class css/have-questions-button-container)}
-   [:div {:class (x-class css/contact-button)} [:a "Connect via e-mail"]]
-   [:div {:class (x-class css/contact-button)} [:a "Connect via Facebook"]]])
+   [:div {:class (x-class css/contact-button)} [:a {:href (str "mailto:" swordfish.setup/email-link)}
+                                                "Connect via e-mail"]]
+   [:div {:class (x-class css/contact-button)} [:a {:href swordfish.setup/facebook-link :target "_blank"}
+                                                "Connect via Facebook"]]])
 
 (defn have-questions-text []
   [:div {:class (x-class css/have-questions-text-container)}

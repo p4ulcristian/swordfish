@@ -34,10 +34,11 @@
     [:span.fas.fa-minus]]
    [:div [:input {:class     (x-class css/quantity-input)
                   :type      "number"
-                  :min-value 1
-                  :on-change #(db/change-product-quantity (-> % .-target .-value))
-                  :on-blur #(db/change-product-quantity (if (= "" (-> % .-target .-value))
-                                                          1 (-> % .-target .-value)))
+                  :on-change #(db/change-product-quantity (max
+                                                            (int (-> % .-target .-value))
+                                                            (-  (int (-> % .-target .-value)))))
+                  :on-blur   #(db/change-product-quantity (if (= "" (-> % .-target .-value))
+                                                            1 (-> % .-target .-value)))
 
                   :value     (db/get-product-quantity)}]]
    [:div {:on-click #(db/inc-product-quantity)
@@ -47,7 +48,7 @@
 (defn product-details-price [title]
   [:div {:class (x-class css/product-details-price)}
    [:div {:class (x-class css-utils/vertical-align)}
-    [:div title]]
+    [:div (str "€ " title)]]
    [:div {:class (x-class css/stars)}
     [:img {:src "/img/stars.png" :width "130px"}]]])
 
@@ -59,7 +60,7 @@
 
 
 (defn product-price [title]
-  [:div {:class (x-class css/product-price)} title])
+  [:div {:class (x-class css/product-price)} (str "€ " title)])
 
 (defn product-photo [photo image-atom]
   [:div {:on-click #(do
@@ -88,14 +89,25 @@
         [product-price price]]
        [product-photos photos image-atom]])))
 
+(defn back-to-link []
+  [:div
+   {:class (x-class css-utils/content-width)}
+   [:div {:on-click #(db/edit-db [:shipping-form?] false)
+          :class    [(x-class css-utils/padding "0px 30px")]}
+    [:a {:href "/shop/main" :class (x-class css/back-to-link)} "BACK TO ALL PRODUCTS"]]])
+
 (defn product-in-details [{:keys [id title type price photos]}]
   (let [image-atom (atom (first photos))]
     (fn [{:keys [id title type price photos]}]
-      [:div {:class (x-class css/product-details-card (first photos))}
-       [product-photos photos image-atom]])))
+      [:div {:style {:margin "20px auto"}}
+       [back-to-link]
+       [:div {:class (x-class css/product-details-card @image-atom)}
+        [product-photos photos image-atom]]])))
 
 (defn add-to-cart-button []
-  [:button {:on-click #(db/add-to-cart)
+  [:button {:on-click #(do
+                         (.scrollTo js/window 0 0)
+                         (db/add-to-cart))
             :class    (x-class css/add-to-cart-button)}
    "ADD TO CART"])
 
@@ -121,7 +133,7 @@
    [add-to-cart-button]
    [guarantees]])
 
-(defn product-description []
+(defn product-description [details-state]
   [:div {:class (x-class css/buying-description)}
    [:h1 "SWORDFISH WAKIZASHI"]
    [:p "This is the area I have to fill with marketing text that makes you want to wear a Swordfish fin so bad you can’t resist hitting that add to cart button. Truth is that if learning about what we created, seeing it in action and in the making didn’t make you feel the urge to grow a sword, swim head on towards your fears, crush them and conquer yourself - than reading this probably won’t either. "]
@@ -130,24 +142,36 @@
    [:p "Want to try both blades? Head over to our Facts page to see the difference between the two available options. The Swordfish feet section module works with both our Katana and Wakizashi blades, they’re easily interchangeable. You can purchase Katana blades as an addition later, or spend less by getting them both in a bundle now!\n"]
    [:p "To find out more about Swordfish follow us on YouTube or see our Facts page.And remember, as Berci says; If you only have one breath, use it wisely! Enjoy your dive!"]])
 
-(defn detail-categories []
-  [:div {:class (x-class css/detail-categories)}
-   [:div "DESCRIPTION"]
-   [:div "TECH SPEC"]
-   [:div "FEET SIZE"]
-   [:div "WARRANTY"]
-   [:div "CUSTOMIZATION"]
-   [:div "SHIPPING"]])
+(defn detail-category [details-state the-key name]
+  [:div
+   {:on-click #(reset! details-state the-key)
+    :style    {:white-space "nowrap"
+               :cursor      "pointer"
+               :color       (if (= the-key @details-state)
+                              (css-utils/color :highlight-color))}}
+   name])
+
+(defn detail-categories [details-state]
+  [:div {:class (x-class css/detail-categories-container)}
+   [:div {:class ["detail-categories" (x-class css/detail-categories)]}
+    [detail-category details-state :description "DESCRIPTION"]
+    [detail-category details-state :tech-spec "TECH SPEC"]
+    [detail-category details-state :feet-size "FEET SIZE"]
+    [detail-category details-state :warranty "WARRANTY"]
+    [detail-category details-state :customization "CUSTOMIZATION"]
+    [detail-category details-state :shipping "SHIPPING"]]])
 
 (defn product-details [product-name]
-  (let [this-product (db/get-product product-name)]
-    [:div
-     [:div {:class (x-class css/product-details)}
-      [product-in-details this-product]
-      [product-details-buying this-product]]
-     [down-arrow]
-     [detail-categories]
-     [product-description this-product]]))
+  (let [this-product (db/get-product product-name)
+        details-state (atom :description)]
+    (fn [product-name]
+      [:div
+       [:div {:class (x-class css/product-details)}
+        [product-in-details this-product]
+        [product-details-buying this-product]]
+       [down-arrow]
+       [detail-categories details-state]
+       [product-description this-product]])))
 
 (defn main-product [product]
   [:div {:class (x-class css/main-product-container)}
@@ -207,14 +231,18 @@
      ^{:key (:id this)} [one-part this])])
 
 
-(defn one-cart [{:keys [title type price quantity]}]
+(defn one-cart [{:keys [title type price quantity] :as item}]
   [:div
    {:class [(x-class css/one-cart)]}
+   [:img {:class (x-class css/one-cart-img)
+          :src   (first (:photos item))}]
    [:div {:class [(x-class css/one-cart-title)]}
-    title " - " type]
+    [:div (str title " - " type)]]
    [:div {:class [(x-class css/one-cart-price)]}
-    (str "€ " price)
-    " x " quantity]])
+    [:div (str "€ " price " x " quantity)]]
+   [:div {:class    (x-class css/one-cart-close)
+          :on-click #(db/delete-from-cart item)}
+    [:span {:class "fas fa-times"}]]])
 
 (defn cart []
   (if
@@ -245,15 +273,20 @@
 (defn thanks []
   [:div {:class (x-class css/thanks)}
    [:h1 {:class (x-class css/thanks-title)} "Thank you!"]
-   [:div
+   [:div {:style {:line-height "28px"}}
     "for choosing us, an email was send to "
     [:span {:class (x-class css/thanks-email)}
-     (str "'" (db/get-in-db [:shipping-form :email]) "'")]
+     (str "'" (get (:names->value @db/form)
+                   :email)
+          "'")]
     " with the details of your purchase."]
    [:button {:on-click #(do (set! (.-href (.-location js/window)) "/"))
              :style    {:margin-top "60px"}
              :class    (x-class css/add-to-cart-button)}
     "BACK TO SHOP"]])
+
+
+
 
 (defn shop []
   (let [this-product (:product (db/get-query-params))]
@@ -262,7 +295,9 @@
        [thanks]
        [:<>
         [cart]
-        (if (db/get-in-db [:shipping-form?])
+
+        (if (and (not (empty? (db/get-cart-items)))
+                 (db/get-in-db [:shipping-form?]))
           [shipping/shipping-and-payment]
           (if (= "main" this-product)
             [:<>

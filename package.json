@@ -3,6 +3,8 @@
     "shadow-cljs": "^2.10.14"
   },
   "dependencies": {
+    "@dnd-kit/core": "^3.0.3",
+    "@dnd-kit/sortable": "^3.0.1",
     "@material-ui/core": "^4.11.3",
     "@material-ui/lab": "^4.0.0-alpha.57",
     "react": "^16.13.0",

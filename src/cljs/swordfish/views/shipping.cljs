@@ -81,7 +81,7 @@
 
 (defn phone-number []
   @db/form
-  [:div {:style {:flex "100%"}}
+  [:div {:style {:flex "100%" :color "white"}}
    [ui/auto-complete
     {:style                 {:width "200px"}
      :options               (sort-by :label (mapv (fn [a] (assoc a :phone (str "+" (:phone a))))
@@ -89,15 +89,15 @@
      :on-blur               (fn [event new-value]
                               (update-form-check :phone-country-code))
      :on-change             (fn [event new-value]
-                              (update-form :phone-country-code (get-from-json new-value :phone)))
-     :on-input-change       (fn [event new-value]
-                              (update-form :phone-country-code (get-from-json new-value :phone)))
+                              (update-form :phone-country-code (str (get-from-json new-value :phone))))
+     :on-input-change       (fn [new-value]
+                              (update-form :phone-country-code (str (.-value (.-target new-value)))))
      :renderOption          (fn [option]
                               (let [{:keys [code label phone]} (js->clj option :keywordize-keys true)]
                                 (utils/as-el [:div
                                               [:span (country-code-to-flag code)]
                                               phone])))
-     :auto-highlight        true
+     :autoHighlight        true
      :getOptionLabel        (fn [item] (str (get (js->clj item) "phone" "")))
      :filterSelectedOptions true
      :freeSolo              true
@@ -107,6 +107,16 @@
                               (set! (.-error params) (fv/?show-message db/form :phone-country-code))
                               (set! (.-helperText params) (str (fv/?show-message db/form :phone-country-code db/form-spec) " "))
                               (reagent/create-element mat/TextField params))}]
+   [:div {:style {:color         "white"
+                  :display       "flex"
+                  :justify-content "center"
+                  :flex-direction "column"
+                  :align-content "center"
+                  :padding       "0px 10px"
+                  :height        "55px"
+                  :font-size "22px"
+                  :font-weight   "bold"}}
+    [:div " - "]]
    [shipping-input {:title "Phone number"
                     :name  :phone-number}]])
 
@@ -136,8 +146,11 @@
 
 (defn buy-it []
   [:button {:on-click #(do
-                         (fv/show-all db/form))
-            ;(db/edit-db [:email?] true))
+                         (fv/show-all db/form)
+                         (if (fv/form-valid? db/form)
+                           (do
+                             (db/edit-db [:email?] true)
+                             (db/edit-db [:cart] []))))
             :class    (if (fv/form-valid? db/form)
                         (x-class css/shipping-button)
                         (x-class css/add-to-cart-button))}

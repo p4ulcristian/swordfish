@@ -8,6 +8,9 @@
 (def mount-target
   [:div#app])
 
+
+
+
 (defn head []
   [:head
    [:title "Swordfish Fins"]
@@ -20,18 +23,16 @@
    [:meta {:name    "theme-color"
            :content "#181819"}]
    [:meta {:name    "viewport"
-           :content "width=device-width, initial-scale=1"}]
+           :content "width=320, initial-scale=1"}]
    (include-css "/css/normalize.css")
-   (include-css (if (env :dev) "/css/site.css" "/css/site.min.css"))])
+   (include-css "/css/site.css")])
 
 (defn loading-page []
   (html5
-    {:id    "sf-document-element"
-     :style "overflow-y: hidden"}
+    {:id    "sf-document-element"}
     (head)
     [:body {:id    "sf-body-container"
-            :class "body-container"
-            :style "background: #181819;"}
+            :class "body-container"}
      mount-target
      (include-js "https://kit.fontawesome.com/f4781bfeea.js")
      (include-js "/js/app.js")

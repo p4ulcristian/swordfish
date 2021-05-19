@@ -41,6 +41,7 @@
           :padding       "10px"
           :background    (color :wall-color)
           :color         "lightgrey"
+          :resize        "none"
           :width         "100%"
           :height        "400px"}))
 
@@ -80,7 +81,7 @@
   (merge utils/oswald
          {:display         "flex"
           :justify-content "center"
-          :margin-bottom   "100px"
+          :margin-bottom   "15px"
           :margin-top      "40px"}))
 
 
@@ -90,7 +91,7 @@
           :color      "white"
           :cursor     "pointer"
           :padding    "10px 0"
-          :width           "250px"}))
+          :width      "250px"}))
 
 
 

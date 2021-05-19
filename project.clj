@@ -16,7 +16,7 @@
                  [org.clojure/clojurescript "1.10.773" :scope "provided"]
                  [org.clojure/google-closure-library "0.0-20190213-2033d5d9"]
                  [pez/clerk "1.0.0"]
-                 [reagent "0.10.0"]
+                 [reagent "1.0.0"]
                  [reagent-utils "0.3.3"]
                  [ring "1.8.1"]
                  [ring-server "0.5.0"]

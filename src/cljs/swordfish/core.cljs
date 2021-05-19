@@ -19,7 +19,7 @@
 (defn init! []
   (clerk/initialize!)
   (db/init-viewport-listener)
-  (db/set-body-scroll-state "sf-document-element" "overflow-y" "scroll")
+  ;(db/set-body-scroll-state "sf-document-element" "overflow-y" "scroll")
   (accountant/configure-navigation!
     {:nav-handler
      (fn [path]

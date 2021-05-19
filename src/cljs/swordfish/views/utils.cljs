@@ -18,8 +18,8 @@
 
 (defn contact-social-icons []
   [:div {:class (x-class css-home/contact-social-icons)}
-   [contact-social-icon "fab fa-facebook-f" swordfish.setup/youtube-link]
-   [contact-social-icon "fab fa-youtube" swordfish.setup/facebook-link]
+   [contact-social-icon "fab fa-facebook-f" swordfish.setup/facebook-link]
+   [contact-social-icon "fab fa-youtube" swordfish.setup/youtube-link]
    [contact-social-icon "fab fa-instagram" swordfish.setup/instagram-link]])
 
 (defn social-icon [class url]
