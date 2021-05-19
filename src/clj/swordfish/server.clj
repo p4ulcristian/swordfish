@@ -17,9 +17,9 @@
     (reset! server (run-jetty #'app
                                {:port port :join? false}))))
 
-(defn dev []
+(defn dev [{:keys [shadow-build]}]
   (-main)
   (server/stop!)
   (server/start!)
   ;(shadow/compile :app)
-  (shadow/watch :app))
+  (shadow/watch shadow-build))

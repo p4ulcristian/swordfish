@@ -13,10 +13,10 @@
 ;; -------------------------
 ;; Initialize app
 
-(defn mount-root []
+(defn render-app! []
   (rdom/render [main/current-page] (.getElementById js/document "app")))
 
-(defn init! []
+(defn boot-app! []
   (clerk/initialize!)
   (db/init-viewport-listener)
   ;(db/set-body-scroll-state "sf-document-element" "overflow-y" "scroll")
@@ -35,4 +35,4 @@
      (fn [path]
        (boolean (reitit/match-by-path router path)))})
   (accountant/dispatch-current!)
-  (mount-root))
+  (render-app!))

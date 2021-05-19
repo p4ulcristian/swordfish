@@ -10,7 +10,6 @@
     [swordfish.db :as db]
     [swordfish.router :refer [path-for]]
     [swordfish.setup]
-    [swordfish.sortable :as sortable]
     [swordfish.views.utils :as utils]))
 
 
@@ -120,9 +119,6 @@
 ;; Page mounting component
 
 (defn current-page []
-  [:div [sortable/view]])
-
-(defn current-page_ []
   (fn []
     (let [page (:current-page (session/get :route))]
       [:div {:class (x-class css-home/background)}

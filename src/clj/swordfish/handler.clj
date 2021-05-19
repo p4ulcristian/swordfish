@@ -1,7 +1,6 @@
 (ns swordfish.handler
   (:require
     [reitit.ring :as reitit-ring]
-    [swordfish.middleware :refer [middleware]]
     [hiccup.page :refer [include-js include-css html5]]
     [config.core :refer [env]]))
 
@@ -35,8 +34,7 @@
             :class "body-container"}
      mount-target
      (include-js "https://kit.fontawesome.com/f4781bfeea.js")
-     (include-js "/js/app.js")
-     [:script "swordfish.core.init_BANG_()"]]))
+     (include-js "/js/core/site.js")]))
 
 (defn index-handler
   [_request]
@@ -56,5 +54,5 @@
         ["/:a" {:get {:handler index-handler}}]]])
     (reitit-ring/routes
       (reitit-ring/create-resource-handler {:path "/" :root "/public"})
-      (reitit-ring/create-default-handler))
-    {:middleware middleware}))
+      (reitit-ring/create-default-handler))))
+    ;{:middleware middleware}))
