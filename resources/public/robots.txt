@@ -1,0 +1,12 @@
+
+# Application mode ########################################
+
+User-agent: *
+Disallow: /
+
+
+
+# Website mode ############################################
+
+# User-agent: *
+# Allow: /

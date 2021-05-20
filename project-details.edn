@@ -1,0 +1,52 @@
+
+; WARNING! DO NOT FORGET TO SET UP THE ROBOTS.TXT FILE!
+
+; ******************************************************************************
+{:app-details
+ {:author "monotech"
+  :app-build "0.0.1"
+  :app-languages ["en" "hu"]
+  :app-title "swordfish"}
+ ; ******************************************************************************
+
+ ; ******************************************************************************
+ :browser-details
+ {
+  ; Theme color must be hex!
+  ; https://developer.mozilla.org/en-US/docs/Web/HTML/Element/meta/name/theme-color
+  :theme-color "#111111"}
+ ; ******************************************************************************
+
+ ; ******************************************************************************
+ :seo-details
+ {:meta-description "The Matrix is everywhere. It is all around us."
+  :meta-keywords ["0" "->" "x" "<-" "0"]
+  ; Recommended preview-size: 1200x630px
+  :og-preview-path "/og/og-preview-1200x630.png"}
+ ; ******************************************************************************
+
+ ; ******************************************************************************
+ :css-paths
+ [{:uri "/css/project-name/site.css" :cache-control? true}]
+ ; ******************************************************************************
+
+ ; ******************************************************************************
+ :favicon-paths
+ [{:uri "/favicon/purple/favicon-16.png"  :cache-control? true :size "16x16"}
+  {:uri "/favicon/purple/favicon-32.png"  :cache-control? true :size "32x32"}
+  {:uri "/favicon/purple/favicon-96.png"  :cache-control? true :size "96x96"}
+  {:uri "/favicon/purple/favicon-144.png" :cache-control? true :size "144x144"}]
+ ; ******************************************************************************
+
+ ; ******************************************************************************
+ :js-details
+ {:core-js-dir     "/js/core"
+  :plugins-js-dir  "/js/plugins"
+  :default-core-js "site.js"}
+ ; ******************************************************************************
+
+ ; ******************************************************************************
+ :plugin-js-paths
+ []}
+;[{:uri "/js/plugins/external-plugin.js" :cache-control? true}]
+; ******************************************************************************

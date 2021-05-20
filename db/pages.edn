@@ -1,0 +1,8 @@
+
+[{:body [[:content/id "5b10f1be-457c-408d-9d42-597191cbc1cb"]]
+  :created-at ""
+  :created-by [:user-account/id "0939329d-b057-ki88-e916-0ce146714c1b"]
+  :id "c0d56c5d-f815-4f46-8317-0bdaab01be3c"
+  :route-path "/sample-page"
+  :rules {:r [] :w []}
+  :title [:content/id "bbcc56b5-4489-4750-8210-c0c5ed1728eb"]}]

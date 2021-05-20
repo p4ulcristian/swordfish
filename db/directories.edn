@@ -1,0 +1,8 @@
+
+[{:alias "Sample directory"
+  :created-at ""
+  :created-by [:user-account/id "0939329d-b057-ki88-e916-0ce146714c1b"]
+  :comment "This is a sample directory"
+  :files []
+  :id "8df6237e-5321-41e1-83d8-c126530812ac"
+  :roles {:r [] :w []}}]

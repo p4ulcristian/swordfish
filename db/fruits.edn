@@ -1,0 +1,9 @@
+
+[{:id 1 :name "apple"      :price 100 :color "red"}
+ {:id 2 :name "pear"       :price 200 :color "khaki"}
+ {:id 3 :name "pineapple"  :price 300 :color "yellow"}
+ {:id 4 :name "strawberry" :price 420 :color "red"}
+ {:id 5 :name "avocado"    :price 500 :color "green"}
+ {:id 6 :name "blueberry"  :price 600 :color "blue"}
+ {:id 7 :name "watermelon" :price 700 :color "green"}
+ {:id 8 :name "banana"     :price 800 :color "yellow"}]
