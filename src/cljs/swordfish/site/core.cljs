@@ -4,12 +4,19 @@
 
 (ns swordfish.site.core
     (:require [x.app-core.boot-loader]
-              [swordfish.site.app-views.api]))
+              [swordfish.site.views.api]))
 
 
 
 ;; ----------------------------------------------------------------------------
 ;; ----------------------------------------------------------------------------
+
+(def router
+  [["/" :index]
+   ["/shop/:product" :shop]
+   ["/fact" :fact]
+   ["/faq" :faq]
+   ["/contact" :contact]])
 
 (defn boot-app!
   []
